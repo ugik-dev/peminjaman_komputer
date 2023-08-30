@@ -1,0 +1,16 @@
+# /assets/*
+/upload/pembahasan_img/*
+!/upload/pembahasan_img/stay.txt
+/upload/image/*
+!/upload/image/stay.txt
+/upload/sk/*
+/uploads/sk/*
+/uploads/bukti/*
+/uploads/proposal/*
+/uploads/berkas/*
+/uploads/laporan_kemajuan/*
+/uploads/laporan_akhir/*
+/uploads/luaran/*
+/application/vendor
+/application/composer.lock
+/application/config/database.php
