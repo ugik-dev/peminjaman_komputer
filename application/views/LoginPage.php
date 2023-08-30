@@ -12,7 +12,7 @@
             <img class="ulogo" src="<?= base_url('assets/img/polman.png'); ?>" style="width : 100%; height: auto">
           </div>
           <div class="col-md-9 ulayout">
-            <h2 class="display-5 shadowed mb-0 mt-0" style="color : #004d99">Sistem Pendaftaran & Ujian</h2>
+            <h2 class="display-5 shadowed mb-0 mt-0" style="color : #004d99">Sistem Informaasi Peminjaman Komputer</h2>
             <h1 class="display-4 shadowed mb-0" style="color : #004d99">POLMAN BABEL</h1>
             <p class="lead shadowed mb-0 mt-0" style="color:#bfbfbf">POLITEKNIK MANUFAKTUR</p>
             <p class="lead shadowed mt-0" style="color : #004d99">BANGKA BELITUNG</p>
