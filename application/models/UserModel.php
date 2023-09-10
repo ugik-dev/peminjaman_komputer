@@ -6,13 +6,14 @@ class UserModel extends CI_Model
 
 	public function getAllUser($filter = [])
 	{
-		if (isset($filter['isSimple'])) {
-			$this->db->select('u.id_user, u.username, u.photo, u.nama, u.id_role');
-		} else {
-			$this->db->select("u.*, r.*");
-		}
+		// if (isset($filter['isSimple'])) {
+		// 	$this->db->select('u.id_user, u.username, u.photo, u.nama, u.id_role');
+		// } else {
+		$this->db->select("u.*, r.*,j.*");
+		// }
 		$this->db->from('user as u');
 		$this->db->join('role as r', 'r.id_role = u.id_role');
+		$this->db->join('jurusan as j', 'j.id_jurusan = u.id_jurusan', 'LEFT');
 		// $this->db->join('kabupaten as k', 'k.id_kabupaten = u.id_kabupaten','left');
 
 		if (isset($filter['username'])) $this->db->where('u.username', $filter['username']);
@@ -83,15 +84,15 @@ class UserModel extends CI_Model
 	{
 		$this->cekUserByUsername($data['username']);
 		$this->cekUserByEmail($data);
-		$data['password_hash'] = $data['password'];
 		$data['password'] = md5($data['password']);
-		$permitted_activtor = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$data['activator'] =  substr(str_shuffle($permitted_activtor), 0, 20);
-		// echo $act;
-		$this->db->insert('user_temp', DataStructure::slice(
+		$data['id_role'] = 4;
+		$data['status_data'] = 0;
+		// $permitted_activtor = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		// $data['activator'] =  substr(str_shuffle($permitted_activtor), 0, 20);
+		$this->db->insert('user', DataStructure::slice(
 			$data,
 			[
-				'username', 'nama', 'password', 'password_hash', 'activator', 'email', 'alamat', 'phone'
+				'username', 'nama', 'password',   'email', 'alamat', 'phone', 'id_jurusan', 'alamat', 'tahun_masuk', 'status_data', 'id_role'
 			],
 			TRUE
 		));

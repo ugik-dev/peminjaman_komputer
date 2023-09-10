@@ -1,35 +1,32 @@
-<div class="wrapper wrapper-content animated fadeInRight">
-  <div class="ibox ssection-container">
-    <div class="ibox-content">
-      <form class="form-inline" id="toolbar_form" onsubmit="return false;">
-        <input type="text" placeholder="Nama / NIK" class="form-control my-1 mr-sm-2" id="search" name="search">
-        <input type="hidden" class="form-control my-1 mr-sm-2" id="ex_role" name="ex_role" value="4">
+<div class="row">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-body">
+        <form class="form-inline" id="toolbar_form" onsubmit="return false;">
+          <!-- <input type="text" placeholder="Nama / NIK" class="form-control my-1 mr-sm-2" id="search" name="search">
+          <input type="hidden" class="form-control my-1 mr-sm-2" id="ex_role" name="ex_role" value="4">
 
-        <button type="submit" class="btn btn-success my-1 mr-sm-2" id="show_btn" data-loading-text="Loading..." onclick="this.form.target='show'"><i class="fal fa-search"></i> Cari</button>
-        <button type="submit" class="btn btn-primary my-1 mr-sm-2" id="add_btn" data-loading-text="Loading..." onclick="this.form.target='add'"><i class="fal fa-plus"></i> Tambah</button>
-      </form>
+          <button type="submit" class="btn btn-success my-1 mr-sm-2" id="show_btn" data-loading-text="Loading..." onclick="this.form.target='show'"><i class="fal fa-search"></i> Cari</button> -->
+          <button type="submit" class="btn btn-primary my-1 mr-sm-2" id="add_btn" data-loading-text="Loading..." onclick="this.form.target='add'"><i class="fa fa-plus"></i> Tambah</button>
+        </form>
+      </div>
     </div>
-  </div>
 
-  <div class="row">
+
     <div class="col-lg-12">
-      <div class="ibox">
-        <div class="ibox-content">
-          <div class="table-responsive">
-            <table id="FDataTable" class="table table-bordered table-hover" style="padding:0px">
-              <thead>
-                <tr>
-
-                  <th style="width: 15%; text-align:center!important">Username</th>
-                  <th style="width: 12%; text-align:center!important">Nama</th>
-                  <th style="width: 12%; text-align:center!important">Role</th>
-                  <!-- <th style="width: 10%; text-align:center!important">Kabupaten / Kota</th> -->
-                  <th style="width: 7%; text-align:center!important">Action</th>
-                </tr>
-              </thead>
-              <tbody></tbody>
-            </table>
-          </div>
+      <div class="card">
+        <div class="card-body">
+          <table id="FDataTable" class="table table-bordered table-hover" style="padding:0px">
+            <thead>
+              <tr>
+                <th style="width: 15%; text-align:center!important">Username</th>
+                <th style="width: 12%; text-align:center!important">Nama</th>
+                <th style="width: 12%; text-align:center!important">Role</th>
+                <th style="width: 7%; text-align:center!important">Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -37,13 +34,13 @@
 </div>
 
 
+
 <div class="modal inmodal" id="user_modal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title">Kelola User</h4>
-        <span class="info"></span>
+        <a href="javascript:void(0);" data-bs-dismiss="modal"><i class="ti-close"></i></a>
       </div>
       <div class="modal-body" id="modal-body">
         <form role="form" id="user_form" onsubmit="return false;" type="multipart" autocomplete="off">
@@ -86,9 +83,8 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title">Reset Password User</h4>
-        <span class="info"></span>
+        <a href="javascript:void(0);" data-bs-dismiss="modal"><i class="ti-close"></i></a>
       </div>
       <div class="modal-body" id="modal-body">
         <form role="form" id="reset_form" onsubmit="return false;" type="multipart" autocomplete="off">
@@ -112,7 +108,6 @@
     </div>
   </div>
 </div>
-
 
 <script>
   $(document).ready(function() {
@@ -287,23 +282,34 @@
       Object.values(data).forEach((user) => {
 
         var editButton = `
-        <a class="edit dropdown-item" data-id='${user['id_user']}'><i class='fa fa-pencil'></i> Edit Data User</a>
+        <li>
+          <a class="edit dropdown-item" data-id='${user['id_user']}'><i class='fa fa-pencil'></i> Edit Data User</a>
+        </li>
       `;
         var resetButton = `
+        <li>
         <a class="resetpassword dropdown-item" data-id='${user['id_user']}'><i class='fa fa-pencil'></i>Reset Password</a>
+        </li>
       `;
         var deleteButton = `
+        <li>
         <a class="delete dropdown-item" data-id='${user['id_user']}'><i class='fa fa-trash'></i> Hapus User</a>
+        </li>
       `;
         var button = `
-        <div class="btn-group" role="group">
-          <button id="action" type="button" class="btn btn-success btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class='fa fa-bars'></i></button>
-          <div class="dropdown-menu" aria-labelledby="action">
-          ${resetButton}
+
+        <div class="dropdown">
+        <button class="btn btn-primary dropdown-toggle" id="single-dropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class='fa fa-bars'></i>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="single-dropdown">
+            ${resetButton}
             ${editButton}
             ${deleteButton}
-          </div>
-        </div>
+        </ul>
+      </div>
+
+        
       `;
         renderData.push([user['username'], user['nama'], user['nama_role'], button]);
       });

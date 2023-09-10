@@ -25,8 +25,8 @@ class PublicController extends CI_Controller
     $this->SecurityModel->guestOnlyGuard();
     $pageData = array(
       'title' => 'Daftar',
+      'jurusan' => $this->ParameterModel->getAllJurusan()
     );
-
     $this->load->view('RegisterPage', $pageData);
   }
 
@@ -43,7 +43,7 @@ class PublicController extends CI_Controller
       }
       $this->load->model(array('UserModel'));
       $data = $this->UserModel->registerUser($data);
-      $this->email_send($data, 'registr');
+      // $this->email_send($data, 'registr');
       echo json_encode(array("error" => FALSE, "user" => $data));
     } catch (Exception $e) {
       ExceptionHandler::handle($e);
@@ -135,18 +135,18 @@ class PublicController extends CI_Controller
     $this->email->subject($send['subject']);
     $this->email->message($send['message']);
     $this->email->send();
-    // var_dump($this->email->print_debugger());
+    var_dump($this->email->print_debugger());
 
-    // ini_set('display_errors', 1);
-    // error_reporting(E_ALL);
+    ini_set('display_errors', 1);
+    error_reporting(E_ALL);
     // $from = $serv['username'];
     // $to = "ugik.dev@gmail.com";
     // $subject = "Checking PHP mail";
     // $message = "PHP mail berjalan dengan baik";
     // $headers = "From:" . $from;
     // mail($to, $subject, $message, $headers);
-    // echo "Pesan email sudah terkirim.";
-    // die();
+    echo "Pesan email sudah terkirim.";
+    die();
     return 0;
   }
 

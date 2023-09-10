@@ -1,61 +1,104 @@
-<?php $this->load->view('Fragment/HeaderFragment', ['title' => $title]); ?>
-<div class="jumbotron " style="height: 95%">
-    <div class="background_login" id="login_page"></div>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags-->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="">
+    <meta name="keywords" content="admin template,html 5 admin template , dmeki admin , dashboard template, bootstrap 5 admin template, responsive admin template">
+    <title>Dmeki |Login
+    </title>
+    <!-- shortcut icon-->
+    <link rel="icon" href="<?= base_url() ?>assets/images/logo/icon-logo.png" type="image/x-icon">
+    <link rel="shortcut icon" href="<?= base_url() ?>assets/images/logo/icon-logo.png" type="image/x-icon">
+    <!-- Fonts css-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
+    <!-- Font awesome -->
+    <link href="<?= base_url() ?>assets/css/vendor/font-awesome.css" rel="stylesheet">
+    <!-- themify icon-->
+    <link href="<?= base_url() ?>assets/css/vendor/themify-icons.css" rel="stylesheet">
+    <!-- Scrollbar-->
+    <link href="<?= base_url() ?>assets/css/vendor/simplebar.css" rel="stylesheet">
+    <!-- Bootstrap css-->
+    <link href="<?= base_url() ?>assets/css/vendor/bootstrap.css" rel="stylesheet">
+    <!-- Custom css-->
+    <link href="<?= base_url() ?>assets/css/style.css" id="customstyle" rel="stylesheet">
+    <script src="<?= base_url('assets/') ?>js/plugins/sweetalert/sweetalert2.all.min.js"></script>
+
+    <script src="<?= base_url() ?>assets/js/jquery-3.6.0.js"></script>
+    <script src="<?= base_url('assets/') ?>js/custom.js?v=0.0.2"></script>
+
+</head>
+
+<body>
+    <!-- Login Start-->
+    <div class="auth-main">
+        <div class="codex-authbox">
+            <div class="auth-header">
+                <div class="codex-brand"><a href="index.html"><img class="img-fluid light-logo" src="<?= base_url() ?>assets/images/logo/logo.png" alt=""><img class="img-fluid dark-logo" src="<?= base_url() ?>assets/images/logo/dark-logo.png" alt=""></a></div>
+                <h3>Form Pendaftaran</h3>
+            </div>
+            <form id="registerForm" class="m-t" role="form">
+                <!-- <h3 style="color: black;">Registrasi / Daftar</h3> -->
+                <div class="form-group">
+                    <label class="form-label">NIM</label>
+                    <input type="text" placeholder="NIM" class="form-control" id="username" name="username" required="required" autocomplete="username">
+                </div>
                 <div class="row">
-                    <div class="col-md-3">
-                        <img class="ulogo" src="<?= base_url('assets/img/polman.png'); ?>" style="width : 100%; height: auto">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Password</label>
+                            <input type="password" placeholder="Password" class="form-control" id="password" name="password" autocomplete="new-password" required>
+                        </div>
                     </div>
-                    <div class="col-md-9 ulayout">
-                        <h2 class="display-5 shadowed mb-0 mt-0" style="color : #004d99">Sistem Pendaftaran & Ujian</h2>
-                        <h1 class="display-5 shadowed mb-0" style="color : #004d99"><b>POLMAN BABEL</b></h1>
-                        <p class="lead shadowed mb-0 mt-0" style="color:#bfbfbf">POLITEKNIK MANUFAKTUR</p>
-                        <p class="lead shadowed mt-0" style="color : #004d99">BANGKA BELITUNG</p>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Re-Password</label>
+                            <input type="password" placeholder="Password" class="form-control" id="repassword" name="repassword" autocomplete="new-password" required>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6">
-                <div class="ibox-content loginForm" style="background-color:#ffffff61">
-                    <form id="registerForm" class="m-t" role="form">
-                        <h3 style="color: black;">Registrasi / Daftar</h3>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label class="form-label">e-Mail</label>
                         <div class="form-group">
-                            <input type="text" placeholder="NIK" class="form-control" id="username" name="username" required="required" autocomplete="username">
+                            <input type="email" placeholder="" class="form-control" id="email" name="email" required="required">
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="password" placeholder="Password" class="form-control" id="password" name="password" autocomplete="new-password" required>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="password" placeholder="Password" class="form-control" id="repassword" name="repassword" autocomplete="new-password" required>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <input type="email" placeholder="Email" class="form-control" id="email" name="email" required="required">
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group">
-
-                                    <input type="text" placeholder="No Telepon" class="form-control" id="phone" name="phone" required="required">
-                                </div>
-                            </div>
-                        </div>
-
-
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label">No Telepon</label>
                         <div class="form-group">
-                            <input type="text" placeholder="Nama" class="form-control" id="nama" name="nama" required="required">
+                            <input type="text" placeholder="" class="form-control" id="phone" name="phone" required="required">
                         </div>
+                    </div>
+                </div>
 
-                        <!-- <div class="form-group">
-                            <input type="text" placeholder="Asal Sekolah" class="form-control" id="asal_sekolah" name="asal_sekolah" required="required">
+                <div class="form-group">
+                    <label class="form-label">Nama</label>
+                    <input type="text" placeholder="Nama" class="form-control" id="nama" name="nama" required="required">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Tahun Masuk</label>
+                    <input type="text" placeholder="Tahun Masuk" min="1000" class="form-control" id="tahun_masuk" name="tahun_masuk" required="required">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Jurusan</label>
+                    <option></option>
+                    <select placeholder="Jurusan" class="form-control" id="id_jurusan" name="id_jurusan" required="required">
+                        <?php
+                        foreach ($jurusan as $j) {
+                            echo "<option value='" . $j['id_jurusan'] . "' >" . $j['nama_jurusan'] . " </option>";
+                        }
+                        ?>
+                    </select>
+                </div>
+
+                <!-- <div class="form-group">
+                            <input type="text" placeholder="Asal Sekolah" class="form-control" id="id_jurusan" name="id_jurusan" required="required">
                         </div>
 
                         <div class="form-group">
@@ -68,244 +111,83 @@
                             <textarea rows="4" type="text" placeholder="Alamat" class="form-control" id="alamat" name="alamat" required="required"></textarea>
                         </div> -->
 
-                        <button type="submit" id="registerBtn" class="btn btn-primary block full-width m-b" data-loading-text="Registering In...">
-                            Register</button>
-                        <a class="btn btn-default block full-width m-b" href="<?= base_url('login') ?>">Login</a>
-                    </form>
-                    <p class="m-t">
-                        <!-- <small style="color: black;">DINAS PENDIDIKAN PROVINSI KEP. BANGKA BELITUNG</small> -->
-                    </p>
-                </div>
-            </div>
+                <button type="submit" id="registerBtn" class="btn btn-primary block full-width m-b" data-loading-text="Registering In...">
+                    Register</button>
+                <a class="btn btn-default block full-width m-b" href="<?= base_url('login') ?>">Login</a>
+            </form>
+            <!-- <div class="auth-footer">
+        <h5 class="auth-with">Or login in with </h5>
+        <ul class="login-list">
+          <li><a class="bg-fb" href="javascript:void(0);"> <img class="img-fluid" src="<?= base_url() ?>assets/images/auth/1.png" alt="facebook">facebook</a></li>
+          <li><a class="bg-google" href="javascript:void(0);"> <img class="img-fluid" src="<?= base_url() ?>assets/images/auth/2.png" alt="google">google</a></li>
+        </ul>
+      </div> -->
         </div>
-        <br>
     </div>
-</div>
+    <script>
+        $(document).ready(function() {
 
 
-<script>
-    $(document).ready(function() {
+            // Swal.fire({
+            //     title: 'Success Registration',
+            //     // html: 'check your email to activation',
+            //     icon: 'success',
+            // }).then((result) => {
+            //     $(location).attr('href', '<?= base_url() ?>');
+            // })
+
+            var registerForm = $('#registerForm');
+            var submitBtn = registerForm.find('#registerBtn');
+            var login_page = $('#login_page');
 
 
-        // Swal.fire({
-        //     title: 'Success Registration',
-        //     // html: 'check your email to activation',
-        //     icon: 'success',
-        // }).then((result) => {
-        //     $(location).attr('href', '<?= base_url() ?>');
-        // })
+            registerForm.on('submit', (ev) => {
+                ev.preventDefault();
+                swal.fire({
+                    html: '<h2>Loading...</h2>',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
 
-        var registerForm = $('#registerForm');
-        var divregion = $('#divregion');
-        var region = $('#region');
-        var submitBtn = registerForm.find('#registerBtn');
-        var login_page = $('#login_page');
+                });
 
-
-        registerForm.on('submit', (ev) => {
-            ev.preventDefault();
-            swal.fire({
-                html: '<h2>Loading...</h2>',
-                showConfirmButton: false,
-                allowOutsideClick: false,
-
-            });
-
-            Swal.showLoading();
-            $.ajax({
-                url: "<?= site_url() . 'register-process' ?>",
-                type: "POST",
-                data: registerForm.serialize(),
-                success: (data) => {
-                    // buttonIdle(submitBtn);
-                    json = JSON.parse(data);
-                    if (json['error']) {
-                        swal("Login Gagal", json['message'], "error");
-                        return;
-                    } else {
-                        swal("Success Registration", 'check your email to activation', "success").then((result) => {
+                Swal.showLoading();
+                $.ajax({
+                    url: "<?= site_url() . 'register-process' ?>",
+                    type: "POST",
+                    data: registerForm.serialize(),
+                    success: (data) => {
+                        // buttonIdle(submitBtn);
+                        json = JSON.parse(data);
+                        if (json['error']) {
+                            swal("Registrasi Gagal", json['message'], "error");
+                            return;
+                        } else {
+                            // swal("Success Registration", 'check your email to activation', "success").then((result) => {
                             $(location).attr('href', '<?= base_url() ?>');
-                        });
-                    }
-                },
-                error: () => {}
+                            swal("Registrasi Berhasil", 'Silahkan masuk menggunakan nip dan password anda!', "success").then((result) => {});
+                        }
+                    },
+                    error: () => {}
+                });
             });
+
         });
+    </script>
 
-        var counter = Math.floor(Math.random() * 100) + 1;
-        var image_count = 2;
-        login_page.addClass(`img_${counter % image_count}`);
-        window.setInterval(function() {
-            counter += 1;
-            var prevIdx = (counter - 1) % image_count;
-            var currIdx = counter % image_count;
-            login_page.fadeOut('400', function() {
-                login_page.removeClass(`img_${prevIdx}`);
-                login_page.addClass(`img_${currIdx}`);
-                login_page.fadeIn('400', function() {})
-            });
-        }, 15000);
-    });
-</script>
-<style>
-    body {
-        background-color: #f3f3f4 !important;
-    }
+    <!-- Login End-->
+    <!-- main jquery-->
+    <script src="<?= base_url() ?>assets/js/jquery-3.6.0.js"></script>
+    <!-- Theme Customizer-->
+    <script src="<?= base_url() ?>assets/js/layout-storage.js"></script>
+    <script src="<?= base_url() ?>assets/js/customizer.js"></script>
+    <!-- Feather icons js-->
+    <script src="<?= base_url() ?>assets/js/icons/feather-icon/feather.js"></script>
+    <!-- Bootstrap js-->
+    <script src="<?= base_url() ?>assets/js/bootstrap.bundle.min.js"></script>
+    <!-- Scrollbar-->
+    <script src="<?= base_url() ?>assets/js/vendors/simplebar.js"></script>
+    <!-- Custom script-->
+    <script src="<?= base_url() ?>assets/js/custom-script.js"></script>
+</body>
 
-    .img_0 {
-        background-image: url('assets/img/background/bg-1.jpg');
-    }
-
-    .img_1 {
-        background-image: url('assets/img/background/bg-2.jpg');
-    }
-
-    .img_2 {
-        background-image: url('assets/img/background/bg-3.jpg');
-    }
-
-    .jumbotron {
-        background-size: cover;
-        width: 100%;
-        height: 250px;
-        border-radius: 0px;
-        padding: 130px;
-    }
-
-    .background_login {
-        position: fixed;
-        height: 100%;
-        top: 0;
-        left: 0;
-        z-index: 0;
-        width: 100%;
-        background-position: center;
-        background-size: cover;
-    }
-
-    .shadowed {
-        text-shadow: 2px 2px 1px #000000;
-        color: #fff;
-    }
-
-    .logo-logo {
-        margin: 30px;
-        /* background-color: #ffffff; */
-        /* border: 1px solid black; */
-        /* opacity: 0.6; */
-        filter: alpha(opacity=60);
-        /* For IE8 and earlier */
-    }
-
-    .ulogo {
-        max-width: 150px !important;
-    }
-
-    .ulayout {
-        width: 90%;
-    }
-
-    @media (max-width: 369px) and (min-width: 200px) {
-        .ulogo {
-            max-width: 90% !important;
-        }
-
-        .ulayout {
-            width: 300px !important;
-            font-size: 10px !important;
-            padding: 0px;
-        }
-
-        .display-4 {
-            width: 180px !important;
-            font-size: 20px !important;
-            padding: 0px 0px 0px 0px !important;
-            margin-bottom: 20px;
-        }
-
-        .lead {
-            width: 180px !important;
-            font-size: 10px !important;
-            padding: 0px 0px 0px 0px !important;
-            margin-top: -10px;
-        }
-
-        .col-md-3 {
-            width: 100px !important;
-            padding: 0px;
-        }
-    }
-
-    @media (max-width: 800px) and (min-width: 400px) {
-        .ulogo {
-            max-width: 900% !important;
-            width: 100px;
-        }
-
-        .ulayout {
-            width: 800px !important;
-            font-size: 10px !important;
-            padding: 10px;
-        }
-
-        .display-4 {
-            width: 400px !important;
-            font-size: 30px !important;
-            padding: 0px 0px 0px 0px !important;
-            margin-bottom: 20px;
-        }
-
-        .lead {
-            width: 300px !important;
-            font-size: 10px !important;
-            padding: 0px 0px 0px 0px !important;
-            margin-top: -10px;
-        }
-
-
-        .col-md-3 {
-            width: 80px !important;
-            padding: 10px;
-        }
-
-        .loginForm {
-            width: 50% !important;
-        }
-    }
-
-    @media (max-width: 1200px) {
-        .ulogo {
-            max-width: 90% !important;
-        }
-
-        .ulayout {
-            width: 400px !important;
-            font-size: 10px !important;
-            padding: 10px;
-        }
-
-        .display-4 {
-            width: 400px !important;
-            font-size: 30px !important;
-            padding: 0px 0px 0px 0px !important;
-            margin-bottom: 20px;
-        }
-
-        .lead {
-            width: 300px !important;
-            font-size: 10px !important;
-            padding: 0px 0px 0px 0px !important;
-            margin-top: -10px;
-        }
-
-        .col-md-3 {
-            width: 200px;
-            padding: 10px;
-        }
-
-        .loginForm {
-            width: 100%;
-        }
-    }
-</style>
-<?php $this->load->view('Fragment/FooterFragment'); ?>
+</html>

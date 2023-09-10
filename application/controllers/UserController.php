@@ -89,7 +89,8 @@ class UserController extends CI_Controller
 	{
 		// $this->SecurityModel->userOnlyGuard();
 		$this->session->sess_destroy();
-		echo json_encode(["error" => FALSE, 'data' => 'Logout berhasil.']);
+		header("refresh: 1; url=" . base_url());
+		// echo json_encode(["error" => FALSE, 'data' => 'Logout berhasil.']);
 	}
 
 	function editPhoto()

@@ -2,9 +2,8 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title">Edit Profile</h4>
-        <span class="infox"></span>
+        <a href="javascript:void(0);" data-bs-dismiss="modal"><i class="ti-close"></i></a>
       </div>
       <div class="modal-body" id="modal-body">
         <form role="form" id="profile_form" onsubmit="return false;" type="multipart" autocomplete="off">
@@ -39,9 +38,8 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title">Ganti Password</h4>
-        <span class="infox"></span>
+        <a href="javascript:void(0);" data-bs-dismiss="modal"><i class="ti-close"></i></a>
       </div>
       <div class="modal-body" id="modal-body">
         <form role="form" id="ganti_pass_form" onsubmit="return false;" type="multipart" autocomplete="off">
@@ -73,9 +71,8 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content animated fadeIn">
       <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
         <h4 class="modal-title">Ganti Photo</h4>
-        <span class="infoy"></span>
+        <a href="javascript:void(0);" data-bs-dismiss="modal"><i class="ti-close"></i></a>
       </div>
       <div class="modal-body" id="modal-body">
 

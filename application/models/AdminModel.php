@@ -6,12 +6,12 @@ class AdminModel extends CI_Model
 
 	public function getRekap($id)
 	{
-		$this->db->select("token,jr.nama_jenis_jurusan as req_name_exam,jj.nama_jenis_jurusan as req_name, jjj.nama_jenis_jurusan as req_name_2, id_session_exam_user,id_session_exam,u.id_user,score,score_arr,benar,req_jurusan,req_jurusan_2,username,id_data,nama,photo,email,phone,start_time, us.req_c");
+		$this->db->select("token,jr.nama_jurusan as req_name_exam,jj.nama_jurusan as req_name, jjj.nama_jurusan as req_name_2, id_session_exam_user,id_session_exam,u.id_user,score,score_arr,benar,req_jurusan,req_jurusan_2,username,id_data,nama,photo,email,phone,start_time, us.req_c");
 		$this->db->from('session_exam_user as u');
 		$this->db->join('user as us', 'u.id_user = us.id_user');
-		$this->db->join('jenis_jurusan as jr', 'jr.id_jenis_jurusan = u.req_exam', 'left');
-		$this->db->join('jenis_jurusan as jj', 'jj.id_jenis_jurusan = u.req_jurusan', 'left');
-		$this->db->join('jenis_jurusan as jjj', 'jjj.id_jenis_jurusan = u.req_jurusan_2', 'left');
+		$this->db->join('jurusan as jr', 'jr.id_jurusan = u.req_exam', 'left');
+		$this->db->join('jurusan as jj', 'jj.id_jurusan = u.req_jurusan', 'left');
+		$this->db->join('jurusan as jjj', 'jjj.id_jurusan = u.req_jurusan_2', 'left');
 		$this->db->where('u.id_session_exam', $id);
 		$res = $this->db->get();
 		// echo $this->db->last_query();
@@ -53,7 +53,7 @@ class AdminModel extends CI_Model
 	public function Create($data)
 	{
 
-		$dataInsert = DataStructure::slice($data, ['id_jenis_jurusan', 'kelas', 'id_mapel']);
+		$dataInsert = DataStructure::slice($data, ['id_jurusan', 'kelas', 'id_mapel']);
 		$this->db->insert('mapel_jurusan', $dataInsert);
 		ExceptionHandler::handleDBError($this->db->error(), "Insert Mapel Jurusan", "mapel_jurusan");
 		return $this->db->insert_id();

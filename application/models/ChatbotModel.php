@@ -71,19 +71,19 @@ class ChatbotModel extends CI_Model
 
     public function calculate($data)
     {
-        $this->db->from('jenis_jurusan');
+        $this->db->from('jurusan');
         $poin =  $this->db->get();
-        $poin = DataStructure::keyValue($poin->result_array(), 'id_jenis_jurusan');
+        $poin = DataStructure::keyValue($poin->result_array(), 'id_jurusan');
         foreach ($poin as $key => $p) {
             $poin[$key]['poin'] = 0;
         }
 
-        $this->db->from('jenis_jurusan');
+        $this->db->from('jurusan');
         $this->db->join('chat_1', 'nilai_jurusan = jenjang');
         $this->db->where('id_c1', $data['c1']);
         $c1 =  $this->db->get();
         foreach ($c1->result_array() as $cdat1) {
-            $poin[$cdat1['id_jenis_jurusan']]['poin']++;
+            $poin[$cdat1['id_jurusan']]['poin']++;
         };
 
         $this->db->from('chat_2');
@@ -124,8 +124,8 @@ class ChatbotModel extends CI_Model
         $text_adm = '';
         foreach ($poin as $p) {
             if ($p['poin'] > 1) {
-                $text .= '<br>' . $p['persentase'] . '% untuk jurusan ' . $p['nama_jenis_jurusan'];
-                $text_adm .= ($text_adm == '' ? '' : '<br>') . $p['nama_jenis_jurusan'] . '% ' . $p['persentase'];
+                $text .= '<br>' . $p['persentase'] . '% untuk jurusan ' . $p['nama_jurusan'];
+                $text_adm .= ($text_adm == '' ? '' : '<br>') . $p['nama_jurusan'] . '% ' . $p['persentase'];
             }
         }
         $this->db->set('req_c', $text_adm);

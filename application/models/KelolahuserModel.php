@@ -39,7 +39,7 @@ class KelolahuserModel extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from('user as po');
-		$this->db->join("data_pendaftar as pjo", "po.id_data = pjo.id_data", 'left');
+		$this->db->join("jurusan as pjo", "po.id_jurusan = pjo.id_jurusan", 'left');
 		// $this->db->join("kabupaten as kab", "kab.id_kabupaten = po.id_kabupaten",'left');
 
 		if (!empty($filter['search'])) $this->db->where('(po.username LIKE "%' . $filter['search'] . '%" or po.nama LIKE "%' . $filter['search'] . '%")');

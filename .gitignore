@@ -1,16 +1,11 @@
 # /assets/*
-/upload/pembahasan_img/*
-!/upload/pembahasan_img/stay.txt
-/upload/image/*
-!/upload/image/stay.txt
-/upload/sk/*
-/uploads/sk/*
-/uploads/bukti/*
-/uploads/proposal/*
-/uploads/berkas/*
-/uploads/laporan_kemajuan/*
-/uploads/laporan_akhir/*
-/uploads/luaran/*
+/upload/nim/*
+!/upload/nim/stay.txt
+/upload/ktp/*
+!/upload/ktp/stay.txt
+/upload/ktp/*
+!/upload/profile/profile_small.jpg
+/upload/profile/*
 /application/vendor
 /application/composer.lock
 /application/config/database.php

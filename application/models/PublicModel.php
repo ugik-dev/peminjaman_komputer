@@ -4,95 +4,52 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class PublicModel extends CI_Model
 {
 
-
-	public function search($filter = [])
+	public function getPerformLabor()
 	{
-		$this->db->select('id_user, username, nama');
-		$this->db->from('user as po');
-		$this->db->where('po.id_role ', '3');
-
-		$this->db->where('po.nama like "%' . $filter['search'] . '%" OR po.username like "%' . $filter['search'] . '%" AND po.id_role = 3');
-		// $this->db->where_or();
-
-		// if(!empty($this->session->userdata('id_kabupaten'))) $this->db->where('po.id_kabupaten', $this->session->userdata('id_kabupaten'));
+		$this->db->select("p.id_labor, nama_labor,count(k.id_komputer) jmlh_komputer");
+		$this->db->from("labor p");
+		$this->db->join("komputer k", 'k.id_labor = p.id_labor');
+		$this->db->group_by('p.id_labor');
+		$this->db->order_by('p.id_labor');
 		$res = $this->db->get();
-		return DataStructure::keyValue($res->result_array(), 'id_user');
+		$res = $res->result_array();
+
+		$this->db->select("p.id_labor, nama_labor,count(l.id_peminjaman) jmlh_peminjaman");
+		// $this->db->select("count(p.id_komputer),k.id_labor, l.nama_labor");
+		// $this->db->from("peminjaman p");
+		// $this->db->join("komputer k", 'k.id_komputer = p.id_komputer');
+		// $this->db->join("labor l", 'k.id_labor = l.id_labor', 'LEFT');
+		$this->db->from("labor p");
+		$this->db->join("komputer k", 'k.id_labor = p.id_labor');
+		$this->db->join("peminjaman l", 'k.id_komputer = l.id_komputer', 'LEFT');
+		$this->db->group_by('p.id_labor');
+		$this->db->order_by('p.id_labor');
+		$res2 = $this->db->get();
+		$res2 = $res2->result_array();
+
+		$chart['nama_labor'] = [];
+		$chart['komputer'] = [];
+		$chart['peminjaman'] = [];
+		foreach ($res as $key => $r) {
+			// echo json_encode($key);
+			// die();
+			if ($key == 0) {
+				$chart['nama_labor'][] = '';
+				$chart['komputer'][] = $res[$key]['jmlh_komputer'];
+				$chart['peminjaman'][] = $res2[$key]['jmlh_peminjaman'];
+			}
+			$chart['nama_labor'][] = $res2[$key]['nama_labor'];
+			$chart['komputer'][] = $res[$key]['jmlh_komputer'];
+			$chart['peminjaman'][] = $res2[$key]['jmlh_peminjaman'];
+		}
+		$chart['nama_labor'][] = '';
+		$chart['komputer'][] = $res[$key]['jmlh_komputer'];
+		$chart['peminjaman'][] = $res2[$key]['jmlh_peminjaman'];
+		return $chart;
 	}
-
-	public function search2($id)
-	{
-		$this->db->select('id_user, username, nama, photo');
-		$this->db->from('user as po');
-		$this->db->where('po.id_role ', '3');
-		$this->db->where('po.id_user ', $id);
-
-		// $this->db->where('po.nama like "%'. $filter['search'].'%" OR po.username like "%'. $filter['search'].'%" AND po.id_role = 3');
-		// $this->db->where_or();
-
-		// if(!empty($this->session->userdata('id_kabupaten'))) $this->db->where('po.id_kabupaten', $this->session->userdata('id_kabupaten'));
-		$res = $this->db->get();
-		return DataStructure::keyValue($res->result_array(), 'id_user');
-	}
-
-
-	public function searchDetail($id)
-	{
-		$this->db->select('po.* , ta.* , v1.id_jenis_kelas , jk.* , jj.nama_jenis_jurusan as jurusan');
-		$this->db->from('mapping_siswa as po');
-		$this->db->join('v1_mapping as v1', 'v1.id_mapping = po.id_mapping');
-		$this->db->join('jenis_kelas as jk', 'v1.id_jenis_kelas = jk.id_jenis_kelas');
-		$this->db->join('jenis_jurusan as jj', 'jj.id_jenis_jurusan = jk.id_jenis_jurusan');
-		$this->db->join('tahun_ajaran as ta', 'ta.id_tahun_ajaran = v1.id_tahun_ajaran');
-		$this->db->where('v1.status_mapping ', '1');
-		$this->db->where('po.id_siswa ', $id['id']);
-		$res = $this->db->get();
-		return DataStructure::keyValue($res->result_array(), 'id_mapping');
-	}
-
-	public function searchSpekKelas($id)
-	{
-		$this->db->select('po.* , ta.* , v1.id_jenis_kelas , jk.* , jj.nama_jenis_jurusan as jurusan');
-		$this->db->from('mapping_siswa as po');
-		$this->db->join('v1_mapping as v1', 'v1.id_mapping = po.id_mapping');
-		$this->db->join('jenis_kelas as jk', 'v1.id_jenis_kelas = jk.id_jenis_kelas');
-		$this->db->join('jenis_jurusan as jj', 'jj.id_jenis_jurusan = jk.id_jenis_jurusan');
-		$this->db->join('tahun_ajaran as ta', 'ta.id_tahun_ajaran = v1.id_tahun_ajaran');
-		$this->db->where('v1.status_mapping ', '1');
-		$this->db->where('po.id_siswa ', $id);
-		$res = $this->db->get();
-		return DataStructure::keyValue($res->result_array(), 'id_mapping');
-	}
-
-	public function searchEvaluasi($data)
-	{
-		$this->db->select('po.* , g.nama as nama_guru');
-		$this->db->from('v7_task as po');
-		$this->db->join('user as g', 'g.id_user = po.id_created');
-		// $this->db->join('jenis_kelas as jk', 'v1.id_jenis_kelas = jk.id_jenis_kelas');
-		// $this->db->join('jenis_jurusan as jj', 'jj.id_jenis_jurusan = jk.id_jenis_jurusan');
-		// $this->db->join('tahun_ajaran as ta', 'ta.id_tahun_ajaran = v1.id_tahun_ajaran');
-		// $this->db->where('v1.status_mapping ', '1');
-		$this->db->where('po.id_siswa ', $data['id_siswa']);
-		$this->db->where('po.id_mapping ', $data['id_kelas']);
-
-		$res = $this->db->get();
-		return $res->result_array();
-	}
-
-	public function getPassingGrade()
-	{
-		$this->db->from('jenis_jurusan');
-		$this->db->join('passing_grade', 'id_jenis_jurusan = id_jurusan', 'left');
-		$res = $this->db->get();
-		return $res->result_array();
-	}
-
-
-
 
 	public function getServerSTMP()
 	{
-
 		$tipe = 'stmp_mail';
 		$this->db->select("*");
 		$this->db->from("config_email as ssk");
@@ -101,14 +58,5 @@ class PublicModel extends CI_Model
 		$res = $res->result_array();
 		// var_dump($res);
 		return $res['0'];
-	}
-	public function getPasingGrade($data)
-	{
-		$this->db->from('passing_grade');
-		$this->db->join('jenis_jurusan', 'id_jenis_jurusan = id_jurusan');
-		$res = $this->db->get();
-
-		$res = $res->result_array();
-		echo json_encode($res);
 	}
 }
