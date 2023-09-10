@@ -13,6 +13,7 @@
                             <th colspan="2" style="background-color: white; text-align:center!important;vertical-align: middle;">Waktu Peminjaman</th>
                             <th style=" text-align:center!important;vertical-align: middle;" rowspan="2">Ruang</th>
                             <th style=" text-align:center!important;vertical-align: middle;" rowspan="2">Komputer</th>
+                            <th style=" text-align:center!important;vertical-align: middle;" rowspan="2">Status</th>
                             <th style=" text-align:center!important;vertical-align: middle;" rowspan="2">Aksi</th>
                         </tr>
                         <tr>
@@ -136,6 +137,15 @@
             confirmButtonText: "Ya, Simpan!",
         };
 
+        var swalBatal = {
+            title: "Konfirmasi",
+            text: "Yakin Batal?",
+            type: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#18a689",
+            confirmButtonText: "Ya, Batal!",
+        };
+
         var swalConfirm = {
             title: "Konfirmasi",
             text: "Yakin akan meminjaman pada waktu ini?",
@@ -172,10 +182,17 @@
         }
 
         function span_status(data) {
-            if (data == 'lulus') {
-                return '<i class="fa fa-check text-success"> Lulus </i>'
-            } else {
-                return '<i class="fa fa-times text-danger"> Tidak Lulus </i>'
+            if (data == '1') {
+                return '<span class="text-primary bold"><i class="fa fa-hourglass-half text-primary">  </i> <b>Belum Checkin</b> </span>';
+            } else
+            if (data == '2') {
+                return '<span class="text-success bold"><i class="fa fa-check-square-o text-success">  </i> <b>Checkin</b> </span>'
+            } else
+            if (data == '3') {
+                return '<span class="text-light bold"><i class="fa fa-history text-light">  </i> <b>Checkout</b> </span>'
+            }else
+            if (data == '4') {
+                return '<span class="text-danger bold"><i class="fa fa-times text-danger">  </i> <b>Batal</b> </span>'
             }
         }
 
@@ -196,11 +213,16 @@
 
             var renderData = [];
             Object.values(data).forEach((exam) => {
-
-                var button = `
-                        <button class="register btn btn-primary" data-id='${exam['id_session_exam']}'><i class='fa fa-arrow-circle-right '></i> Daftar </button>
+                if (exam['status'] != 4) {
+                    var button = `
+                        <button class="batal btn btn-danger" data-id='${exam['id_peminjaman']}'><i class='fa fa-times '></i> Batal </button>
                     `;
-                renderData.push([exam['time_start'], exam['time_end'], exam['nama_labor'], exam['label_komputer'], button]);
+                }
+                else {
+                    var button = '';
+                }
+                
+                renderData.push([exam['time_start'], exam['time_end'], exam['nama_labor'], exam['label_komputer'], span_status(exam['status']), button]);
             });
             FDataTable.clear().rows.add(renderData).draw('full-hold');
         }
@@ -263,11 +285,36 @@
         });
 
 
-        FDataTable.on('click', '.register', function() {
+        FDataTable.on('click', '.batal', function() {
             event.preventDefault();
             var id = $(this).data('id');
-            PeminjamanModal.self.modal('show');
-            PeminjamanModal.id_exam.val(id);
+            swal(swalBatal).then((result) => {
+                if (!result.value) {
+                    return;
+                }
+                // swalLoading();
+
+                $.ajax({
+                    url: "<?= site_url('Mahasiswa/batalPeminjaman') ?>",
+                    'type': 'POST',
+                    data: {'id_peminjaman' : id},
+                    success: function(data) {
+                        swal.close();
+                        var json = JSON.parse(data);
+                        if (json['error']) {
+                            swal("Gagal", json['message'], "error");
+                            return;
+                        }
+                        dataRiwayat[json['data']['id_peminjaman']] = json['data'];
+                        renderRiwayat(dataRiwayat);
+
+                        swal("Berhasil", "", "success");
+                        PeminjamanModal.self.modal('hide');
+
+                    },
+                    error: function(e) {}
+                });
+            });
         });
 
         PeminjamanModal.form.submit(function(ev) {

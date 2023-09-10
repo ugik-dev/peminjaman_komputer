@@ -227,6 +227,9 @@
             } else
             if (data == '3') {
                 return '<span class="text-light bold"><i class="fa fa-history text-light">  </i> <b>Checkout</b> </span>'
+            }else
+            if (data == '4') {
+                return '<span class="text-danger bold"><i class="fa fa-times text-danger">  </i> <b>Batal</b> </span>'
             }
         }
 

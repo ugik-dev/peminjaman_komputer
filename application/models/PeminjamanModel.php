@@ -46,6 +46,15 @@ class PeminjamanModel extends CI_Model
         return $data['id_peminjaman'];
     }
 
+    public function batalPeminjaman($data){
+        $this->db->set('status', 4);
+        $this->db->where('id_peminjaman', $data['id_peminjaman']);
+        $this->db->update('peminjaman');
+
+        ExceptionHandler::handleDBError($this->db->error(), "Ubah Peminjaman", "Peminjaman");
+        return $data['id_peminjaman'];
+    }
+
     public function deletePeminjaman($data)
     {
         $this->db->where('id_peminjaman', $data['id_peminjaman']);

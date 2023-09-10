@@ -175,6 +175,22 @@ class Mahasiswa extends CI_Controller
         }
     }
 
+    public function batalPeminjaman()
+    {
+
+        try {
+            $this->SecurityModel->roleOnlyGuard('mahasiswa');
+            $this->load->model('PeminjamanModel');
+            $data = $this->input->post();
+
+            $id = $this->PeminjamanModel->batalPeminjaman($data);
+            $data = $this->PeminjamanModel->getAllPeminjaman(array('id_peminjaman' => $id))[$id];
+            echo json_encode(array('data' => $data));
+        } catch (Exception $e) {
+            ExceptionHandler::handle($e);
+        }
+    }
+
     // public function editPeminjaman()
     // {
 

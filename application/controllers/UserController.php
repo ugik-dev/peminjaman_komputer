@@ -98,7 +98,7 @@ class UserController extends CI_Controller
 		try {
 			$this->SecurityModel->userOnlyGuard(TRUE);
 			$config['upload_path'] = "./upload/profile";
-			$config['allowed_types'] = 'jpg|png';
+			$config['allowed_types'] = 'jpg|png|jpeg';
 			$config['encrypt_name'] = TRUE;
 
 

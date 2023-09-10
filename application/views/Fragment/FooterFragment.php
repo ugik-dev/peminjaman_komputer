@@ -1,5 +1,5 @@
 <footer class="codex-footer">
-	<p>Copyright 2023 © Sistem Informasi Peminjaman Komputer - Politeknik Negeri Bangka Belitung.</p>
+	<p>Copyright 2023 © Sistem Informasi Peminjaman Komputer - Politeknik Manufaktur Negeri Bangka Belitung.</p>
 </footer>
 <!-- footer end-->
 <!-- back to top start //-->
