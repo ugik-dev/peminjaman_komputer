@@ -28,10 +28,10 @@
                     <thead>
                         <tr>
                             <th colspan="2" style="background-color: white; text-align:center!important;vertical-align: middle;">Waktu Peminjaman</th>
-                            <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Ruang</th>
+                            <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Lab</th>
                             <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Komputer</th>
                             <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Nama</th>
-                            <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Jurusan</th>
+                            <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Prodi</th>
                             <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Status</th>
                             <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Aksi</th>
                         </tr>

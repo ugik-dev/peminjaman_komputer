@@ -19,7 +19,7 @@
                         <tr>
 
                             <th style="width: 5%; text-align:center!important">ID</th>
-                            <th style="width: 50%; text-align:center!important">NAMA JURUSAN</th>
+                            <th style="width: 50%; text-align:center!important">PROGRAM STUDI</th>
 
                             <th style="width: 7%; text-align:center!important">ACTION</th>
                         </tr>
@@ -45,7 +45,7 @@
                     <input type="hidden" id="id_jurusan" name="id_jurusan">
 
                     <div class="form-group">
-                        <label for="nama">Nama Jurusan</label>
+                        <label for="nama">Program Studi</label>
                         <input type="text" placeholder="" class="form-control" id="nama_jurusan" name="nama_jurusan" required="required"></input>
                     </div>
                     <button class="btn btn-success my-1 mr-sm-2" type="submit" id="add_btn" data-loading-text="Loading..." onclick="this.form.target='add'"><strong>Tambah Data</strong></button>
