@@ -11,6 +11,8 @@ class AdminController extends CI_Controller
     $this->db->debug = true;
   }
 
+
+  
   public function index()
   {
     $this->SecurityModel->roleOnlyGuard('admin');
