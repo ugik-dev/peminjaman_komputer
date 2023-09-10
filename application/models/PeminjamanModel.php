@@ -15,6 +15,7 @@ class PeminjamanModel extends CI_Model
         if (!empty($filter['id_peminjaman'])) $this->db->where('p.id_peminjaman', $filter['id_peminjaman']);
         if (!empty($filter['id_labor'])) $this->db->where('k.id_labor', $filter['id_labor']);
         if (!empty($filter['id_komputer'])) $this->db->where('k.id_komputer', $filter['id_komputer']);
+        if (!empty($filter['id_user'])) $this->db->where('p.id_user', $filter['id_user']);
 
         $res = $this->db->get();
         return DataStructure::keyValue($res->result_array(), 'id_peminjaman');
