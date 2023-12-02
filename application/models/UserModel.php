@@ -4,6 +4,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class UserModel extends CI_Model
 {
 
+	public function verifToken($data){
+		$this->db->from('user_reset ur');
+		$this->db->join('user u', 'u.id_user = ur.id_user');
+		$this->db->where('id_reset',$data['id_reset']);
+		$this->db->where('token',$data['token']);
+
+		return $this->db->get()->result_array();
+	}
 	public function getAllUser($filter = [])
 	{
 		// if (isset($filter['isSimple'])) {
@@ -61,6 +69,19 @@ class UserModel extends CI_Model
 		return $tmpdata;
 	}
 
+	public function resetPass($tmpdata)
+	{
+		$data = array(
+			'password' => md5($tmpdata['password']),
+		);
+
+		$this->db->set($data);
+		$this->db->where('id_user', $tmpdata['id_user']);
+		$this->db->update('user');
+
+		return $tmpdata;
+	}
+
 
 	public function getUserByUsername($username = NULL)
 	{
@@ -78,6 +99,25 @@ class UserModel extends CI_Model
 		if (md5($loginData['password']) !== $user['password'])
 			throw new UserException("Password yang kamu masukkan salah.", WRONG_PASSWORD_CODE);
 		return $user;
+	}
+
+	public function resetPassword($data)
+	{
+		$permitted_activtor = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$data_s['token'] =  substr(str_shuffle($permitted_activtor), 0, 20);
+		$data_s['id_user'] = $data['id_user'];
+		$this->db->insert('user_reset', DataStructure::slice(
+			$data_s,
+			[
+				'token', 'id_user', 'password',
+			],
+			TRUE
+		));
+		ExceptionHandler::handleDBError($this->db->error(), "Reset Password", "Reset Password");
+
+		$data_s['id_reset']  = $this->db->insert_id();
+
+		return $data_s;
 	}
 
 	public function registerUser($data)

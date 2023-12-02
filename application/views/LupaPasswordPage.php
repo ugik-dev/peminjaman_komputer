@@ -47,23 +47,18 @@
           <label class="form-label">NIM / USERNAME</label>
           <input class="form-control" type="text" required name="username" placeholder="NIM / USERNAME">
         </div>
-        <div class="form-group">
-          <label class="form-label" for="Password">Password</label>
-          <div class="input-group group-input">
-            <input class="form-control showhide-password" name="password" type="password" id="Password" placeholder="Enter Your Password" required=""><span class="input-group-text toggle-show fa fa-eye"></span>
-          </div>
-        </div>
         <div class="form-group mb-0">
           <div class="auth-remember">
             <div class="form-check custom-chek">
               <!-- <input class="form-check-input" id="agree" type="checkbox" value="" required="">
               <label class="form-check-label" for="agree">Remember me</label> -->
-            </div><a class="text-primary f-pwd" href="<?=base_url('lupa-password')?>">Lupa password?</a>
+            <!-- </div><a class="text-primary f-pwd" href="<?=base_url('login')?>">Forgot your password?</a> -->
           </div>
         </div>
         <div class="form-group">
-          <button class="btn btn-primary" id="loginBtn" type="submit"><i class="fa fa-sign-in"></i> Login</button>
-          <a class="btn btn-light" type="button" href="<?= base_url() ?>register"><i class="fa fa-user"></i> Daftar</a>
+          <button class="btn btn-primary" id="loginBtn" type="submit"><i class="fa fa-unlock"></i> Reset </button>
+          <a class="btn btn-light" type="button" href="<?= base_url() ?>login"><i class="fa fa-sign-in"></i> Kembali ke halaman Login</a>
+          <!-- <a class="btn btn-light" type="button" href="<?= base_url() ?>register"><i class="fa fa-user"></i> Daftar</a> -->
         </div>
       </form>
       <!-- <div class="auth-footer">
@@ -82,19 +77,6 @@
       var submitBtn = loginForm.find('#loginBtn');
       var login_page = $('#login_page');
 
-      <?php 
-      if(!empty($activator)){
-        if($activator == 1){
-          ?>
-          swal("Aktifasi Berhasil", 'Silahkan masuk menggunakan NIM dan Password anda', "success");
-          <?php
-        }else{
-          ?>
-          swal("Aktifasi Gagal", '<?=$activator?>', "error");
-          <?php
-        }
-      }
-      ?>
       loginForm.on('submit', (ev) => {
         ev.preventDefault();
         // buttonLoading(submitBtn);
@@ -102,20 +84,21 @@
             title: "Loading!",
         });
         Swal.showLoading();
-      
         $.ajax({
-          url: "<?= site_url() . 'login-process' ?>",
+          url: "<?= base_url('reset-process') ?>",
           type: "POST",
           data: loginForm.serialize(),
           success: (data) => {
             // buttonIdle(submitBtn);
             json = JSON.parse(data);
             if (json['error']) {
-
               swal("Login Gagal", json['message'], "error");
               return;
             }
-            $(location).attr('href', '<?= site_url() ?>' + json['user']['nama_controller']);
+            swal("Berhasil", "Silahkan cek email anda untuk melakukan reset", "success").then((result) => {
+                                    $(location).attr('href', '<?= base_url('login') ?>');
+                                });;
+            
           },
           error: () => {
             buttonIdle(submitBtn);

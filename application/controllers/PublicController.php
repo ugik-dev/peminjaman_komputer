@@ -30,6 +30,88 @@ class PublicController extends CI_Controller
     $this->load->view('RegisterPage', $pageData);
   }
 
+  public function lupaPassword(){
+    $this->SecurityModel->guestOnlyGuard();
+    $pageData = array(
+      'title' => 'Daftar',
+      'jurusan' => $this->ParameterModel->getAllJurusan()
+    );
+    $this->load->view('LupaPasswordPage', $pageData);
+  }
+  
+  public function reset2Process()
+  {
+    try {
+      $this->SecurityModel->guestOnlyGuard(TRUE);
+      // Validation::ajaxValidateForm($this->SecurityModel->loginValidation());
+      $data = $this->input->post();
+      if (empty($data['password']) or empty($data['repassword']) or ($data['repassword'] != $data['password'])) {
+        throw new UserException("Password Wrong!!", USER_NOT_FOUND_CODE);
+      }
+    
+      $this->load->model(array('UserModel'));
+      $dataToken = $this->UserModel->verifToken($data);
+      if(empty($dataToken))
+      throw new UserException("Data tidak valid", USER_NOT_FOUND_CODE);
+    $data_update['id_user'] = $dataToken[0]['id_user'];
+    $data_update['password'] = $data['password'];
+      $data = $this->UserModel->resetPass($data_update);
+      // if(empty($data))
+      // throw new UserException("Data yang kamu masukkan tidak ditemukan", USER_NOT_FOUND_CODE);
+      // $data = reset($data);
+      
+      // $res = $this->UserModel->resetPassword($data);
+      // $data['token'] = $res['token'];
+      // $data['id_reset'] = $res['id_reset'];
+      // $data['id'] = 99;
+      // $this->email_send($data, 'reset');
+      echo json_encode(array("error" => FALSE, "user" => $dataToken));
+    } catch (Exception $e) {
+      ExceptionHandler::handle($e);
+    }
+  }
+
+  public function resetProcess()
+  {
+    try {
+      $this->SecurityModel->guestOnlyGuard(TRUE);
+      // Validation::ajaxValidateForm($this->SecurityModel->loginValidation());
+      $data = $this->input->post();
+      $this->load->model(array('UserModel'));
+      $data = $this->UserModel->getAllUser($data);
+      if(empty($data))
+      throw new UserException("Data yang kamu masukkan tidak ditemukan", USER_NOT_FOUND_CODE);
+      $data = reset($data);
+      
+      $res = $this->UserModel->resetPassword($data);
+      $data['token'] = $res['token'];
+      $data['id_reset'] = $res['id_reset'];
+      // $data['id'] = 99;
+      $this->email_send($data, 'reset');
+      echo json_encode(array("error" => FALSE, "user" => $data));
+    } catch (Exception $e) {
+      ExceptionHandler::handle($e);
+    }
+  }
+
+  public function reset($id, $token)
+  {
+    try {
+      // $this->SecurityModel->guestOnlyGuard(TRUE);
+      $data['token'] = $token;
+      $data['id'] = $id;
+
+      $this->load->model(array('UserModel'));
+      $pageData = array(
+        'title' => 'Daftar',
+        'token' => $token,
+        'id_reset' => $id
+      );
+      $this->load->view('ResetPasswordPage', $pageData);
+    } catch (Exception $e) {
+      ExceptionHandler::handle($e);
+    }
+  }
   public function registerProcess()
   {
     try {
@@ -86,6 +168,7 @@ class PublicController extends CI_Controller
       ExceptionHandler::handle($e);
     }
   }
+
   public function email_send($data, $action)
   {
 
@@ -93,32 +176,40 @@ class PublicController extends CI_Controller
     // echo json_encode($serv);
     // die();
     $send['to'] = $data['email'];
-    $send['subject'] = 'Aktifasi Sistem Informasi Peminjaman Komputer Polman Babel';
-    $url_act = site_url("/activator/{$data['id']}/{$data['activator']}");
-    $content = "<br><br> Username :  {$data['username']}
-    				<br> Email :  {$data['email']}
-    				<br> Activator :  {$data['activator']}
-    				<br> 
-    				<br><a href='{$url_act}' target='_blank' style='text-decoration:none;color: #60d2ff;'>Click this to activate</a>
+    if($action == 'reset'){
+      // $data['token'] = 'asd';
+      // $data['id_reset'] = 'sadk342#';
+      $send['subject'] = 'Reset Password Sistem Informasi Peminjaman Komputer Polman Babel';
+      $url_act = site_url("/reset/{$data['id_reset']}/{$data['token']}");
+      $content = "<h4>Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
+      </h4>
+                                              <br><br> Username / NIM : {$data['username']}
+                                              <br> Email : {$data['email']}
+                                              <br> Token : {$data['token']}
+                                              <br>
+                                              <br> Untuk reset password silahkan klik tombol reset dibawah.";
 
-    				<br> manual activate = {$url_act}";
-
-    $content = "<h4>Selamat datang di Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
+                                              $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>Reset sekarang</a>
+                                              <br> atau masuk kealamat {$url_act} ";
+    
+    }else{
+      $send['subject'] = 'Aktifasi Sistem Informasi Peminjaman Komputer Polman Babel';
+      $url_act = site_url("/activator/{$data['id']}/{$data['activator']}");
+      $content = "<h4>Selamat datang di Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
     </h4><br><br>Email anda telah berhasil didaftarkan.
                                             <br><br> Username / NIM : {$data['username']}
                                             <br> Email : {$data['email']}
                                             <br> Activator : {$data['activator']}
                                             <br>
                                             <br> Untuk login harap melakukan aktivasi email terlebih dahulu dengan klik tombol aktifasi dibawah.";
-    $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>Aktifkan sekarang</a>
+  
+                                            $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>Aktifkan sekarang</a>
                                             <br> atau masuk kealamat {$url_act} ";
+  }
+    
     $send['message'] = $this->template_email($send['subject'], $content, $content2);
 
-    // $config['smtp_host']    = $serv['url_'];
-    // $config['charset']    = 'iso-8859-1';
-    // $config['smtp_crypto']    = 'ssl';
-    //  '' => 'ssl'
-    $config['protocol']    = 'smtp';
+     $config['protocol']    = 'smtp';
     $config['smtp_host']    = $serv['url_'];
     $config['smtp_port']    = $serv['port'];
     $config['smtp_timeout'] = '20';
@@ -138,18 +229,9 @@ class PublicController extends CI_Controller
     $this->email->subject($send['subject']);
     $this->email->message($send['message']);
     $this->email->send();
-    // var_dump($this->email->print_debugger());
 
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
-    // $from = $serv['username'];
-    // $to = "ugik.dev@gmail.com";
-    // $subject = "Checking PHP mail";
-    // $message = "PHP mail berjalan dengan baik";
-    // $headers = "From:" . $from;
-    // mail($to, $subject, $message, $headers);
-    // echo "Pesan email sudah terkirim.";
-    // die();
     return 0;
   }
 

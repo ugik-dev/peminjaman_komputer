@@ -67,9 +67,13 @@ $route['logout'] = 'UserController/logout';
 $route['change-password'] = 'UserController/changePassword';
 $route['change-password-process'] = 'UserController/changePasswordProcess';
 $route['register-process'] = 'PublicController/registerProcess';
+$route['lupa-password'] = 'PublicController/lupaPassword';
+$route['reset-process'] = 'PublicController/resetProcess';
 $route['student'] = 'PublicController/my_task';
 $route['guest'] = 'GuestController/index';
 $route['activator/(:num)/(:any)'] = "PublicController/activator/$1/$2";
+$route['reset2-process'] = 'PublicController/reset2Process';
+$route['reset/(:num)/(:any)'] = "PublicController/reset/$1/$2";
 
 
 $route['404_override'] = '';
