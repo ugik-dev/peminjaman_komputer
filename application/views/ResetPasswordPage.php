@@ -43,8 +43,8 @@
             </div>
             <form id="registerForm" class="m-t" role="form">
                 <div class="row">
-                <input type=""  class="form-control" id="token" name="token" value="<?=$token?>" required>
-                <input type=""  class="form-control" id="id_reset" name="id_reset" value="<?=$id_reset?>" required>
+                <input type="hidden"  class="form-control" id="token" name="token" value="<?=$token?>" required>
+                <input type="hidden"  class="form-control" id="id_reset" name="id_reset" value="<?=$id_reset?>" required>
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="form-label">Password</label>
