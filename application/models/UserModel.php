@@ -86,32 +86,35 @@ class UserModel extends CI_Model
 		$this->cekUserByEmail($data);
 		$data['password'] = md5($data['password']);
 		$data['id_role'] = 4;
-		$data['status_data'] = 0;
-		// $permitted_activtor = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		// $data['activator'] =  substr(str_shuffle($permitted_activtor), 0, 20);
-		$this->db->insert('user', DataStructure::slice(
+		$data['status_reg'] = 0;
+		$permitted_activtor = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$data['activator'] =  substr(str_shuffle($permitted_activtor), 0, 20);
+		$this->db->insert('user_register', DataStructure::slice(
 			$data,
 			[
-				'username', 'nama', 'password',   'email', 'alamat', 'phone', 'id_jurusan', 'alamat', 'tahun_masuk', 'status_data', 'id_role'
+				'username', 'nama', 'password',   'email', 'alamat', 'phone', 'id_jurusan', 'alamat', 'tahun_masuk', 'status_reg','activator'
 			],
 			TRUE
 		));
-		ExceptionHandler::handleDBError($this->db->error(), "Tambah User", "User");
+		ExceptionHandler::handleDBError($this->db->error(), "Register", "Register");
 
 		$data['id']  = $this->db->insert_id();
 
 		return $data;
 	}
 
-	public function cekUserByUsername($username = NULL)
+	public function cekUserByUsername($username = NULL ,$restrict = false)
 	{
 		$row = $this->getAllUser(['username' => $username, 'is_login' => TRUE]);
 		if (!empty($row)) {
+			if(!$restrict)
 			throw new UserException("User yang kamu daftarkan sudah ada", USER_NOT_FOUND_CODE);
+			redirect('login?activator=NIM kamu sudah diaktifkan sebelumnya');
+
 		}
 	}
 
-	public function cekUserByEmail($data)
+	public function cekUserByEmail($data, $restrict = false)
 	{
 		$this->db->select("email");
 		$this->db->from('user as u');
@@ -119,41 +122,53 @@ class UserModel extends CI_Model
 		$res = $this->db->get();
 		$row = $res->result_array();
 		if (!empty($row)) {
+			if(!$restrict)
 			throw new UserException("Email yang kamu daftarkan sudah ada", USER_NOT_FOUND_CODE);
+			else
+			redirect('login?activator=Email kamu sudah diaktifkan sebelumnya');
+
 		}
 	}
 
 	public function activatorUser($data)
 	{
 		$this->db->select("*");
-		$this->db->from('user_temp as u');
+		$this->db->from('user_register as u');
 		$this->db->where("u.id ", $data['id']);
 		$this->db->where("u.activator ", $data['activator']);
 		$res = $this->db->get();
 		$res = $res->result_array();
 		if (empty($res)) {
-			throw new UserException('Activation failed or has active please check your email or try to login', USER_NOT_FOUND_CODE);
+			redirect('login?activator=Data tidak ditemukan atau email anda sudah diaktifkan sebelumnya');
+			return;
+			// throw new UserException('Activation failed or has active please check your email or try to login', USER_NOT_FOUND_CODE);
 		} else {
 			// $this->cekUserByEmailBuyer($res[0]);
-			$this->cekUserByEmail($res[0]);
-			$this->cekUserByUsername($res[0]['username']);
+			$this->cekUserByEmail($res[0], true);
+			$this->cekUserByUsername($res[0]['username'], true);
 
 			$res[0]['id_role'] = '4';
 			// $res[0]['email'] = '4';
-			$res[0]['password'] = $res[0]['password_hash'];
-			$res[0]['hash_pwd'] = $res[0]['password_hash'];
-			$res[0]['id_user'] = $this->addUser($res[0]);
+			$res[0]['password'] = $res[0]['password'];
+			$res[0]['id_user'] = $this->addUser($res[0], true);
 			//	$this->addPerusahaan($res[0]);
 			// $this->db->where('id', $res[0]['id']);
-			// $this->db->delete('user_temp');
+			// $this->db->delete('user_register');
 			return $res[0];
 		};
 	}
 
-	public function addUser($data)
+	public function addUser($data, $hasencrpy = false)
 	{
-		$data['password'] =  md5($data['password']);
-		$dataInsert = DataStructure::slice($data, ['password', 'username', 'nama', 'id_role', 'email', 'hash_pwd', 'alamat', 'phone']);
+		if(!$hasencrpy){
+			$data['password'] =  md5($data['password']);
+		}
+		$data['status_data'] = 0;
+		$dataInsert = DataStructure::slice($data, [
+			'username', 'nama', 'password',   'email', 'alamat', 'phone', 'id_jurusan', 'alamat',
+			 'tahun_masuk', 'status_data',
+			 'id_role'
+		]);
 		$this->db->insert('user', $dataInsert);
 		ExceptionHandler::handleDBError($this->db->error(), "Insert Kelolahuser", "user");
 		return $this->db->insert_id();

@@ -43,7 +43,8 @@ class PublicController extends CI_Controller
       }
       $this->load->model(array('UserModel'));
       $data = $this->UserModel->registerUser($data);
-      // $this->email_send($data, 'registr');
+      // $data['id'] = 99;
+      $this->email_send($data, 'registr');
       echo json_encode(array("error" => FALSE, "user" => $data));
     } catch (Exception $e) {
       ExceptionHandler::handle($e);
@@ -80,7 +81,7 @@ class PublicController extends CI_Controller
 
       $data = $this->UserModel->activatorUser($data);
       // $this->email_send($data, 'activate');
-      redirect('login');
+      redirect('login?activator=1');
     } catch (Exception $e) {
       ExceptionHandler::handle($e);
     }
@@ -89,21 +90,23 @@ class PublicController extends CI_Controller
   {
 
     $serv = $this->PublicModel->getServerSTMP();
+    // echo json_encode($serv);
+    // die();
     $send['to'] = $data['email'];
-    $send['subject'] = 'Aktifasi Sistem Pendaftaran Polman Babel';
+    $send['subject'] = 'Aktifasi Sistem Informasi Peminjaman Komputer Polman Babel';
     $url_act = site_url("/activator/{$data['id']}/{$data['activator']}");
     $content = "<br><br> Username :  {$data['username']}
-    				<br> Password :  {$data['password_hash']}
+    				<br> Email :  {$data['email']}
     				<br> Activator :  {$data['activator']}
     				<br> 
     				<br><a href='{$url_act}' target='_blank' style='text-decoration:none;color: #60d2ff;'>Click this to activate</a>
 
     				<br> manual activate = {$url_act}";
 
-    $content = "<h4>Selamat datang di sistem pendaftaran dan ujian masuk Politeknik Manufaktur Bangka Belitung
+    $content = "<h4>Selamat datang di Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
     </h4><br><br>Email anda telah berhasil didaftarkan.
-                                            <br><br> Username : {$data['username']}
-                                            <br> Password : {$data['password_hash']}
+                                            <br><br> Username / NIM : {$data['username']}
+                                            <br> Email : {$data['email']}
                                             <br> Activator : {$data['activator']}
                                             <br>
                                             <br> Untuk login harap melakukan aktivasi email terlebih dahulu dengan klik tombol aktifasi dibawah.";
@@ -135,7 +138,7 @@ class PublicController extends CI_Controller
     $this->email->subject($send['subject']);
     $this->email->message($send['message']);
     $this->email->send();
-    var_dump($this->email->print_debugger());
+    // var_dump($this->email->print_debugger());
 
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
@@ -145,8 +148,8 @@ class PublicController extends CI_Controller
     // $message = "PHP mail berjalan dengan baik";
     // $headers = "From:" . $from;
     // mail($to, $subject, $message, $headers);
-    echo "Pesan email sudah terkirim.";
-    die();
+    // echo "Pesan email sudah terkirim.";
+    // die();
     return 0;
   }
 
@@ -216,7 +219,7 @@ class PublicController extends CI_Controller
                                                                             <div class='footer' style='width: 100%;	clear: both;	color: #999;	padding: 20px;'>
                                                                                 <table width='100%'>
                                                                                     <tr style='text-align: center;'>
-                                                                                        <td class='aligncenter content-block' style='padding: 0 0 20px;'>Follow <a style='color: #999;' href='https://instagram.com/ugikdev'>@ugikdev</a> on Instagram.</td>
+                                                                                        <td class='aligncenter content-block' style='padding: 0 0 20px;'>Kunjungi <a style='color: #999;' href='https://sipk-polmanbabel.my.id/'>Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung</a>.</td>
                                                                                     </tr>
                                                                                 </table>
                                                                             </div>

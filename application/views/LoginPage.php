@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="author" content="">
   <meta name="keywords" content="admin template,html 5 admin template , dmeki admin , dashboard template, bootstrap 5 admin template, responsive admin template">
-  <title>Dmeki |Login
+  <title>SIPK-POLMAN BABEL|Login
   </title>
   <!-- shortcut icon-->
   <link rel="icon" href="<?= base_url() ?>assets/images/logo/icon-logo.png" type="image/x-icon">
@@ -82,6 +82,19 @@
       var submitBtn = loginForm.find('#loginBtn');
       var login_page = $('#login_page');
 
+      <?php 
+      if(!empty($activator)){
+        if($activator == 1){
+          ?>
+          swal("Aktifasi Berhasil", 'Silahkan masuk menggunakan NIM dan Password anda', "success");
+          <?php
+        }else{
+          ?>
+          swal("Aktifasi Gagal", '<?=$activator?>', "error");
+          <?php
+        }
+      }
+      ?>
       loginForm.on('submit', (ev) => {
         ev.preventDefault();
         // buttonLoading(submitBtn);

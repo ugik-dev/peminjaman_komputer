@@ -6,8 +6,8 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="">
-    <meta name="keywords" content="admin template,html 5 admin template , dmeki admin , dashboard template, bootstrap 5 admin template, responsive admin template">
-    <title>Dmeki |Login
+    <meta name="keywords" content="admin template,html 5 admin template , admin , dashboard template, bootstrap 5 admin template, responsive admin template">
+    <title>SIPK-POLMAN BABEL|Login
     </title>
     <!-- shortcut icon-->
     <link rel="icon" href="<?= base_url() ?>assets/images/logo/icon-logo.png" type="image/x-icon">
@@ -163,7 +163,7 @@
                             return;
                         } else {
                             // swal("Success Registration", 'check your email to activation', "success").then((result) => {
-                            $(location).attr('href', '<?= base_url() ?>');
+                            // $(location).attr('href', '<?= base_url() ?>');
                             swal("Registrasi Berhasil", 'Silahkan masuk menggunakan nip dan password anda!', "success").then((result) => {});
                         }
                     },
