@@ -26,7 +26,7 @@ class Mahasiswa extends CI_Controller
         $user = $this->session->userdata();
         $pageData = array(
             'title' => '',
-            'content' => 'dashboard',
+            'content' => 'Dashboard',
             'breadcrumb' =>  "Dashboard",
             'contentData' => array(),
             'ret_data' => $user
@@ -101,7 +101,7 @@ class Mahasiswa extends CI_Controller
             $pageData = array(
                 'title' => 'Riwayat Peminjaman',
                 'breadcrumb' => 'Mahasiswa',
-                'content' => 'mahasiswa/riwayat',
+                'content' => 'mahasiswa/Riwayat',
 
             );
             $this->load->view('Page', $pageData);
