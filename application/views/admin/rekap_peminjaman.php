@@ -32,6 +32,7 @@
                             <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Komputer</th>
                             <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Nama</th>
                             <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Prodi</th>
+                            <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Keterangan</th>
                             <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Status</th>
                             <th style="width: 15%; text-align:center!important;vertical-align: middle;" rowspan="2">Aksi</th>
                         </tr>
@@ -119,6 +120,28 @@
             'info': false,
             "scrollX": true,
             // scrollCollapse: true,
+            dom: 'Bfrtip',
+        buttons: [
+            {
+                extend: 'copyHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
+                }
+            },
+            {
+                extend: 'pdfHtml5',
+                exportOptions: {
+                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
+                }
+            },
+            'colvis'
+        ]
         });
 
         var ReadyTable = $('#ReadyTable').DataTable({
@@ -392,7 +415,7 @@
                 // <button class="batal btn btn-danger btn-sm btn-block" data-id='${rent['id_peminjaman']}'><i class='fa fa-times '></i> Batalkan </button>
                 button = button + `
               </div>`;
-                renderData.push([rent['time_start'].slice(0, 16), rent['time_end'].slice(0, 16), rent['nama_labor'], rent['label_komputer'], rent['nama_mahasiswa'], rent['nama_jurusan'], rent['status'] != 2 ? span_status(rent['status']) : span_status(rent['status'], rent['time_start'], rent['time_end'], rent['id_peminjaman']), button]);
+                renderData.push([rent['time_start'].slice(0, 16), rent['time_end'].slice(0, 16), rent['nama_labor'], rent['label_komputer'], rent['nama_mahasiswa'], rent['nama_jurusan'], rent['keterangan'], rent['status'] != 2 ? span_status(rent['status']) : span_status(rent['status'], rent['time_start'], rent['time_end'], rent['id_peminjaman']), button]);
             });
             FDataTable.clear().rows.add(renderData).draw('full-hold');
             timers();
