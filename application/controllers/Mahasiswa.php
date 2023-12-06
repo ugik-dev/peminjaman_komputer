@@ -220,7 +220,8 @@ class Mahasiswa extends CI_Controller
         // die();
         $send['to'] = $email;
         $send['subject'] = 'Notifikasi Peminjaman';
-        $url_act = site_url("/peminjaman/{$data['id_peminjaman']}");
+        $url_act = base_url();
+        // $url_act = site_url("/peminjaman/{$data['id_peminjaman']}");
         $content = "<h4>Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
       </h4>
                                               <br><br> Nama Mahasiswa : {$data['nama_mahasiswa']}
