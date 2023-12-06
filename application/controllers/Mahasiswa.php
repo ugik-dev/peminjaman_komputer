@@ -226,6 +226,7 @@ class Mahasiswa extends CI_Controller
                                               <br><br> Nama Mahasiswa : {$data['nama_mahasiswa']}
                                               <br> Prodi : {$data['nama_jurusan']}
                                               <br> Laboratorium : {$data['nama_labor']}
+                                              <br> Keterangan : {$data['keterangan']}
                                               <br> Komputer : {$data['label_komputer']}
                                               <br> Waktu  : {$data['time_start']} - {$data['time_end']}
                                              ";
