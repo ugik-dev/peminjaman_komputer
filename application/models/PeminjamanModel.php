@@ -26,7 +26,7 @@ class PeminjamanModel extends CI_Model
     {
         $data['id_user'] =  $this->session->userdata('id_user');
 
-        $dataInsert = DataStructure::slice($data, ['id_komputer', 'status', 'id_user', 'time_start', 'time_end']);
+        $dataInsert = DataStructure::slice($data, ['id_komputer', 'keterangan', 'status', 'id_user', 'time_start', 'time_end']);
         $this->db->insert('peminjaman', $dataInsert);
         ExceptionHandler::handleDBError($this->db->error(), "Menambah Peminjaman", "Peminjaman");
         return    $this->db->insert_id();

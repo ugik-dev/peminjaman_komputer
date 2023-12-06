@@ -163,7 +163,7 @@ class Mahasiswa extends CI_Controller
             $this->load->model('PeminjamanModel');
             $data = $this->input->post();
             if (empty($data['select_komputer']))
-                throw new UserException("Anda harus memilih komputer terlebi dahulu", USER_NOT_FOUND_CODE);
+                throw new UserException("Anda harus memilih komputer terlebih dahulu", USER_NOT_FOUND_CODE);
             else
                 $data['id_komputer'] = $data['select_komputer'];
 

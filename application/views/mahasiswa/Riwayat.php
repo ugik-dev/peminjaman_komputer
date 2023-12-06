@@ -13,6 +13,7 @@
                             <th colspan="2" style="background-color: white; text-align:center!important;vertical-align: middle;">Waktu Peminjaman</th>
                             <th style=" text-align:center!important;vertical-align: middle;" rowspan="2">Ruang</th>
                             <th style=" text-align:center!important;vertical-align: middle;" rowspan="2">Komputer</th>
+                            <th style=" text-align:center!important;vertical-align: middle;" rowspan="2">Keterangan</th>
                             <th style=" text-align:center!important;vertical-align: middle;" rowspan="2">Status</th>
                             <th style=" text-align:center!important;vertical-align: middle;" rowspan="2">Aksi</th>
                         </tr>
@@ -97,6 +98,7 @@
             'form': $('#peminjaman_modal').find('#peminjaman_form'),
             'add_btn': $('#peminjaman_modal').find('#add_btn'),
             'search': $('#peminjaman_modal').find('#search_ready_komputer'),
+            'keterangan': $('#peminjaman_modal').find('#keterangan'),
             'id_peminjaman': $('#peminjaman_modal').find('#id_peminjaman'),
             'time_start': $('#peminjaman_modal').find('#time_start'),
             'time_end': $('#peminjaman_modal').find('#time_end'),
@@ -227,7 +229,7 @@
                     var button = '';
                 }
 
-                renderData.push([exam['time_start'], exam['time_end'], exam['nama_labor'], exam['label_komputer'], span_status(exam['status']), button]);
+                renderData.push([exam['time_start'], exam['time_end'], exam['nama_labor'], exam['label_komputer'],exam['keterangan'], span_status(exam['status']), button]);
             });
             FDataTable.clear().rows.add(renderData).draw('full-hold');
         }
