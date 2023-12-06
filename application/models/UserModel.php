@@ -4,31 +4,38 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class UserModel extends CI_Model
 {
 
-	public function verifToken($data){
+	public function verifToken($data)
+	{
 		$this->db->from('user_reset ur');
 		$this->db->join('user u', 'u.id_user = ur.id_user');
-		$this->db->where('id_reset',$data['id_reset']);
-		$this->db->where('token',$data['token']);
+		$this->db->where('id_reset', $data['id_reset']);
+		$this->db->where('token', $data['token']);
 
 		return $this->db->get()->result_array();
 	}
-	public function getAllUser($filter = [])
+	public function getAllUser($filter = [], $key = true)
 	{
 		// if (isset($filter['isSimple'])) {
 		// 	$this->db->select('u.id_user, u.username, u.photo, u.nama, u.id_role');
 		// } else {
-		$this->db->select("u.*, r.*,j.*");
+		$this->db->select("u.*, r.*,j.*,l.*");
 		// }
 		$this->db->from('user as u');
 		$this->db->join('role as r', 'r.id_role = u.id_role');
 		$this->db->join('jurusan as j', 'j.id_jurusan = u.id_jurusan', 'LEFT');
+		$this->db->join("labor as l", "l.id_labor = u.id_lab", 'left');
+
 		// $this->db->join('kabupaten as k', 'k.id_kabupaten = u.id_kabupaten','left');
 
 		if (isset($filter['username'])) $this->db->where('u.username', $filter['username']);
 		if (isset($filter['ex_role'])) $this->db->where_not('u.id_role', $filter['ex_role']);
 		if (isset($filter['id_user'])) $this->db->where('u.id_user', $filter['id_user']);
+		if (isset($filter['id_lab'])) $this->db->where('u.id_lab', $filter['id_lab']);
 		$res = $this->db->get();
-		return DataStructure::keyValue($res->result_array(), 'id_user');
+		if ($key)
+			return DataStructure::keyValue($res->result_array(), 'id_user');
+		else
+			return $res->result_array();
 	}
 
 	public function getUser($idUser = NULL)
@@ -132,7 +139,7 @@ class UserModel extends CI_Model
 		$this->db->insert('user_register', DataStructure::slice(
 			$data,
 			[
-				'username', 'nama', 'password',   'email', 'alamat', 'phone', 'id_jurusan', 'alamat', 'tahun_masuk', 'status_reg','activator'
+				'username', 'nama', 'password',   'email', 'alamat', 'phone', 'id_jurusan', 'alamat', 'tahun_masuk', 'status_reg', 'activator'
 			],
 			TRUE
 		));
@@ -143,14 +150,13 @@ class UserModel extends CI_Model
 		return $data;
 	}
 
-	public function cekUserByUsername($username = NULL ,$restrict = false)
+	public function cekUserByUsername($username = NULL, $restrict = false)
 	{
 		$row = $this->getAllUser(['username' => $username, 'is_login' => TRUE]);
 		if (!empty($row)) {
-			if(!$restrict)
-			throw new UserException("User yang kamu daftarkan sudah ada", USER_NOT_FOUND_CODE);
+			if (!$restrict)
+				throw new UserException("User yang kamu daftarkan sudah ada", USER_NOT_FOUND_CODE);
 			redirect('login?activator=NIM kamu sudah diaktifkan sebelumnya');
-
 		}
 	}
 
@@ -162,11 +168,10 @@ class UserModel extends CI_Model
 		$res = $this->db->get();
 		$row = $res->result_array();
 		if (!empty($row)) {
-			if(!$restrict)
-			throw new UserException("Email yang kamu daftarkan sudah ada", USER_NOT_FOUND_CODE);
+			if (!$restrict)
+				throw new UserException("Email yang kamu daftarkan sudah ada", USER_NOT_FOUND_CODE);
 			else
-			redirect('login?activator=Email kamu sudah diaktifkan sebelumnya');
-
+				redirect('login?activator=Email kamu sudah diaktifkan sebelumnya');
 		}
 	}
 
@@ -200,14 +205,14 @@ class UserModel extends CI_Model
 
 	public function addUser($data, $hasencrpy = false)
 	{
-		if(!$hasencrpy){
+		if (!$hasencrpy) {
 			$data['password'] =  md5($data['password']);
 		}
 		$data['status_data'] = 0;
 		$dataInsert = DataStructure::slice($data, [
 			'username', 'nama', 'password',   'email', 'alamat', 'phone', 'id_jurusan', 'alamat',
-			 'tahun_masuk', 'status_data',
-			 'id_role'
+			'tahun_masuk', 'status_data',
+			'id_role'
 		]);
 		$this->db->insert('user', $dataInsert);
 		ExceptionHandler::handleDBError($this->db->error(), "Insert Kelolahuser", "user");

@@ -8,35 +8,35 @@
             <li class="cdxmenu-title">
                 <h5>Dashboards</h5>
             </li>
-            <li class="menu-item"><a href="<?= base_url('AdminController/') ?>">
+            <li class="menu-item"><a href="<?= base_url('KepalaLab/') ?>">
                     <div class="icon-item"><i data-feather="airplay"></i></div><span>Dashboard</span>
                 </a></li>
             <li class="cdxmenu-title">
                 <h5>Aplikasi</h5>
             </li>
-            <li class="menu-item"><a href="<?= base_url('AdminController/rekap') ?>">
+            <li class="menu-item"><a href="<?= base_url('KepalaLab/rekap') ?>">
                     <div class="icon-item"><i data-feather="calendar"></i></div><span>Rekap Peminjaman</span>
                 </a></li>
 
-            <!-- <li class="cdxmenu-title">
+            <li class="cdxmenu-title">
                 <h5>Administrator</h5>
-            </li> -->
-            <!-- <li class="menu-item"><a href="<?= base_url('AdminController/Kelolahuser') ?>">
+            </li>
+            <li class="menu-item"><a href="<?= base_url('KepalaLab/Kelolahuser') ?>">
                     <div class="icon-item"><i data-feather="user"></i></div><span>User</span>
                 </a></li>
-            <li class="menu-item"><a href="<?= base_url('AdminController/Mahasiswa') ?>">
+            <li class="menu-item"><a href="<?= base_url('KepalaLab/Mahasiswa') ?>">
                     <div class="icon-item"><i data-feather="users"></i></div><span>Mahasiswa</span>
-                </a></li> -->
-            <!-- <li class="menu-item"><a href="javascript:void(0);">
+                </a></li>
+            <li class="menu-item"><a href="javascript:void(0);">
                     <div class="icon-item"><i data-feather="settings"></i></div><span>Master</span><i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="submenu-list">
-                    <li><a href="<?= base_url('AdminController/master_labor') ?>">Laboratorium</a></li>
-                    <li><a href="<?= base_url('AdminController/master_komputer') ?>">Komputer</a></li>
-                    <li><a href="<?= base_url('AdminController/master_jurusan') ?>"> Jurusan</a></li>
+                    <li><a href="<?= base_url('KepalaLab/master_labor') ?>">Laboratorium</a></li>
+                    <li><a href="<?= base_url('KepalaLab/master_komputer') ?>">Komputer</a></li>
+                    <li><a href="<?= base_url('KepalaLab/master_jurusan') ?>"> Jurusan</a></li>
 
                 </ul>
-            </li> -->
+            </li>
             <li class="menu-item"><a href="<?= base_url('logout') ?>">
                     <div class="icon-item"><i data-feather="log-out"></i></div><span>Logout</span>
                 </a></li>

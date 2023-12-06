@@ -21,7 +21,9 @@
               <tr>
                 <th style="width: 15%; text-align:center!important">Username</th>
                 <th style="width: 12%; text-align:center!important">Nama</th>
+                <th style="width: 12%; text-align:center!important">Email</th>
                 <th style="width: 12%; text-align:center!important">Role</th>
+                <th style="width: 12%; text-align:center!important">Laboratorium</th>
                 <th style="width: 7%; text-align:center!important">Action</th>
               </tr>
             </thead>
@@ -50,6 +52,10 @@
             <input type="text" placeholder="Username" class="form-control" id="username" name="username" required="required">
           </div>
           <div class="form-group">
+            <label for="nama">Email</label>
+            <input type="email" placeholder="" class="form-control" id="email" name="email" required="required">
+          </div>
+          <div class="form-group">
             <label for="nama">Nama User</label>
             <input type="text" placeholder="" class="form-control" id="nama" name="nama" required="required">
           </div>
@@ -67,6 +73,12 @@
             <select class="form-control mr-sm-2" id="id_role" name="id_role" required="required">
             </select>
           </div>
+          <div class="form-group">
+            <label for="id_role">Laboratorium</label>
+            <select class="form-control mr-sm-2" id="id_lab" name="id_lab">
+            </select>
+          </div>
+
           <button class="btn btn-success my-1 mr-sm-2" type="submit" id="add_btn" data-loading-text="Loading..." onclick="this.form.target='add'"><strong>Tambah Data</strong></button>
           <button class="btn btn-success my-1 mr-sm-2" type="submit" id="save_edit_btn" data-loading-text="Loading..." onclick="this.form.target='edit'"><strong>Simpan Perubahan</strong></button>
         </form>
@@ -150,13 +162,16 @@
       'id_user': $('#user_modal').find('#id_user'),
       'nama': $('#user_modal').find('#nama'),
       'username': $('#user_modal').find('#username'),
+      'email': $('#user_modal').find('#email'),
       'id_role': $('#user_modal').find('#id_role'),
+      'id_lab': $('#user_modal').find('#id_lab'),
       'password': $('#user_modal').find('#password'),
       'repassword': $('#user_modal').find('#repassword'),
       'lokasi': $('#user_modal').find('#lokasi'),
       'deskripsi': $('#user_modal').find('#deskripsi'),
       'kabupaten': $('#user_modal').find('#kabupaten'),
     }
+
     KelolahuserModal.password.on('change', () => {
       confirmPasswordRule(KelolahuserModal.password, KelolahuserModal.repassword);
     });
@@ -234,6 +249,25 @@
       });
     }
 
+    getAllLab();
+
+    function getAllLab() {
+      return $.ajax({
+        url: `<?php echo site_url('KelolahuserController/getAllLab/') ?>`,
+        'type': 'GET',
+        data: {},
+        success: function(data) {
+          var json = JSON.parse(data);
+          if (json['error']) {
+            return;
+          }
+          data = json['data'];
+          renderLab(data);
+        },
+        error: function(e) {}
+      });
+    }
+
 
     getAllUser();
 
@@ -265,6 +299,20 @@
         KelolahuserModal.id_role.append($('<option>', {
           value: d['id_role'],
           text: d['id_role'] + ' :: ' + d['title_role'],
+        }));
+      });
+    }
+
+    function renderLab(data) {
+      KelolahuserModal.id_lab.empty();
+      KelolahuserModal.id_lab.append($('<option>', {
+        value: "",
+        text: "-- Pilih Labor --"
+      }));
+      Object.values(data).forEach((d) => {
+        KelolahuserModal.id_lab.append($('<option>', {
+          value: d['id_labor'],
+          text: d['id_labor'] + ' :: ' + d['nama_labor'],
         }));
       });
     }
@@ -311,7 +359,7 @@
 
         
       `;
-        renderData.push([user['username'], user['nama'], user['nama_role'], button]);
+        renderData.push([user['username'], user['email'], user['nama'], user['nama_role'], user['nama_labor'], button]);
       });
       FDataTable.clear().rows.add(renderData).draw('full-hold');
     }
@@ -329,6 +377,15 @@
       ResetModal.id_user.val(user['id_user']);
     });
 
+    KelolahuserModal.id_role.on('change', () => {
+      if (KelolahuserModal.id_role.val() == 1) {
+        KelolahuserModal.id_lab.prop('disabled', false);
+      } else {
+        KelolahuserModal.id_lab.val('');
+        KelolahuserModal.id_lab.prop('disabled', true);
+
+      }
+    })
     FDataTable.on('click', '.edit', function() {
       event.preventDefault();
       KelolahuserModal.form.trigger('reset');
@@ -342,9 +399,11 @@
       KelolahuserModal.repassword.prop('disabled', true);
       KelolahuserModal.id_user.val(user['id_user']);
       KelolahuserModal.nama.val(user['nama']);
+      KelolahuserModal.email.val(user['email']);
+      KelolahuserModal.id_lab.val(user['id_lab']);
       KelolahuserModal.username.val(user['username']);
       KelolahuserModal.id_role.val(user['id_role']);
-
+      KelolahuserModal.id_role.trigger('change');
     });
 
 
