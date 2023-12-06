@@ -230,8 +230,8 @@ class Mahasiswa extends CI_Controller
                                               <br> Waktu  : {$data['time_start']} - {$data['time_end']}
                                              ";
 
-        $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>Reset sekarang</a>
-                                              <br> atau masuk kealamat {$url_act} ";
+        $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>SIPK POLMAN BABEL</a>
+                                             ";
 
 
         $send['message'] = $this->template_email($send['subject'], $content, $content2);
