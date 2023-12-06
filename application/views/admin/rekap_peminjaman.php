@@ -8,7 +8,9 @@
                             <input type="text" placeholder="Search" class="form-control my-1 mr-sm-2" id="search" name="search">
                         </div>
                         <div class="col-md-4">
-                            <select class="form-control mr-sm-2" name="id_labor" id="id_labor"></select>
+                            <select class="form-control mr-sm-2" name="id_labor" <?=
+                                                                                    ($this->session->userdata('id_role') == 1) ? 'hidden' : ''
+                                                                                    ?> id="id_labor"></select>
                         </div>
                         <div class="col-md-4">
                             <select class="form-control mr-sm-2" name="id_komputer" id="id_komputer"> </select>
@@ -255,6 +257,7 @@
                     }
                     data = json['data'];
                     renderOptLabor(data);
+
                 },
                 error: function(e) {}
             });

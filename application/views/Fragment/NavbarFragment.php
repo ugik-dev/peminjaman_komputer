@@ -169,7 +169,7 @@
               }  ?>
              <div class="user-icon"><img class="img-fluid rounded-50" src="<?= $img ?>" alt="logo"></div>
              <div class="media-body">
-               <h6><?= $this->session->userdata('nama') ?></h6><span class="text-light"><?= ucfirst($this->session->userdata('nama_role')) ?></span>
+               <h6><?= $this->session->userdata('nama') . ($this->session->userdata('id_role') == 1 ? ' - ' . $this->session->userdata('nama_labor') : '') ?></h6><span class="text-light"><?= ucfirst($this->session->userdata('title_role')) ?></span>
              </div>
            </div>
            <div class="hover-dropdown navprofile-drop">

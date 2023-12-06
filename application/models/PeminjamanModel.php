@@ -11,9 +11,14 @@ class PeminjamanModel extends CI_Model
         $this->db->join('user u', 'p.id_user = u.id_user');
         $this->db->join('jurusan j', 'u.id_jurusan = u.id_jurusan');
         $this->db->join('komputer k', 'p.id_komputer = k.id_komputer', 'left');
-        $this->db->join('labor l', 'k.id_labor = l.id_labor', 'left');
+        $this->db->join('labor l', 'k.id_labor = l.id_labor');
         if (!empty($filter['id_peminjaman'])) $this->db->where('p.id_peminjaman', $filter['id_peminjaman']);
         if (!empty($filter['id_labor'])) $this->db->where('k.id_labor', $filter['id_labor']);
+
+
+        if ($this->session->userdata('id_role') == 1) {
+            // $this->db->where('l.id_labor', $this->session->userdata('id_lab'));
+        }
         if (!empty($filter['id_komputer'])) $this->db->where('k.id_komputer', $filter['id_komputer']);
         if (!empty($filter['id_user'])) $this->db->where('p.id_user', $filter['id_user']);
 
@@ -46,7 +51,8 @@ class PeminjamanModel extends CI_Model
         return $data['id_peminjaman'];
     }
 
-    public function batalPeminjaman($data){
+    public function batalPeminjaman($data)
+    {
         $this->db->set('status', 4);
         $this->db->where('id_peminjaman', $data['id_peminjaman']);
         $this->db->update('peminjaman');

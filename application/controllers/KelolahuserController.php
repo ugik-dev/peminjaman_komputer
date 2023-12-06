@@ -24,6 +24,18 @@ class KelolahuserController extends CI_Controller
   }
 
 
+  public function getAllLab()
+  {
+    try {
+      $this->SecurityModel->userOnlyGuard(TRUE);
+      $data = $this->KelolahuserModel->getAllLab($this->input->get());
+      echo json_encode(array('data' => $data));
+    } catch (Exception $e) {
+      ExceptionHandler::handle($e);
+    }
+  }
+
+
   public function getAllKelolahuser()
   {
     try {

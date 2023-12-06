@@ -169,6 +169,10 @@ class Mahasiswa extends CI_Controller
 
             $id = $this->PeminjamanModel->addPeminjaman($data);
             $data = $this->PeminjamanModel->getAllPeminjaman(array('id_peminjaman' => $id))[$id];
+            $this->load->model('UserModel');
+            $email = $this->UserModel->getAllUser(array('id_lab' => $data['id_labor']), false);
+            if (!empty($email[0]['email']));
+            $this->email_send($email[0]['email'], $data);
             echo json_encode(array('data' => $data));
         } catch (Exception $e) {
             ExceptionHandler::handle($e);
@@ -205,345 +209,139 @@ class Mahasiswa extends CI_Controller
     //         ExceptionHandler::handle($e);
     //     }
     // }
-    public function daftarSessionExam()
+
+
+    public function email_send($email, $data)
     {
-        try {
-            $id = $this->input->post()['id_session_exam'];
-            $filter['id_user'] = $this->session->userdata()['id_user'];
-            $status =  $this->MahasiswaModel->cek_status(['id_user' => $this->session->userdata('id_user')])[0];
-            if ($status['status_data'] != 2)
-                throw new UserException("Maaf data anda belum diferivikasi", USER_NOT_FOUND_CODE);
-            // echo json_encode($status);
-            // die();
-            $row = $this->ParameterModel->getAvaliableSession(array('id_session_exam' => $id, 'start_exam' => false));
-            if (empty($row)) {
-                throw new UserException("Sorry Not Avaliable", USER_NOT_FOUND_CODE);
-            }
-            $cur =  $row[$id];
-            $i = 0;
-            $shuffle = '';
-            if ($cur['id_mapel'] == '1') {
-                $data = $this->ParameterModel->getAllBankSoal(array('id_mapel' => '6', 'limit' => 30, 'order_random' => true, 'result_array' => true));
-                shuffle($data);
-                foreach ($data as $d) {
-                    if ($i == 0)
-                        $shuffle .= $d['id_bank_soal'];
-                    else
-                        $shuffle .= ',' . $d['id_bank_soal'];
-                    $i++;
-                }
 
-                $data2 = $this->ParameterModel->getAllBankSoal(array('id_mapel' => '5', 'limit' => 30, 'order_random' => true, 'result_array' => true));
-                shuffle($data2);
-                foreach ($data2 as $d2) {
-                    if ($i == 0)
-                        $shuffle .= $d2['id_bank_soal'];
-                    else
-                        $shuffle .= ',' . $d2['id_bank_soal'];
-                    $i++;
-                }
-
-                $data3 = $this->ParameterModel->getAllBankSoal(array('id_mapel' => '2', 'limit' => 20, 'order_random' => true, 'result_array' => true));
-                shuffle($data3);
-                foreach ($data3 as $d3) {
-                    if ($i == 0)
-                        $shuffle .= $d3['id_bank_soal'];
-                    else
-                        $shuffle .= ',' . $d3['id_bank_soal'];
-                    $i++;
-                }
-
-                $data4 = $this->ParameterModel->getAllBankSoal(array('id_mapel' => '3', 'limit' => 20, 'order_random' => true, 'result_array' => true));
-                shuffle($data4);
-                foreach ($data4 as $d4) {
-                    if ($i == 0)
-                        $shuffle .= $d4['id_bank_soal'];
-                    else
-                        $shuffle .= ',' . $d4['id_bank_soal'];
-                    $i++;
-                }
-            } else {
-                $data = $this->ParameterModel->getAllBankSoal(array('id_mapel' => $cur['id_mapel'], 'limit' => $cur['limit_soal'], 'order_random' => true, 'result_array' => true));
-                shuffle($data);
-                foreach ($data as $d) {
-                    if ($i == 0)
-                        $shuffle .= $d['id_bank_soal'];
-                    else
-                        $shuffle .= ',' . $d['id_bank_soal'];
-                    $i++;
-                }
-            }
-
-            $create = array(
-                'id_session_exam' => $id,
-                'generate_soal' => $shuffle,
-                'req_jurusan' => $this->input->post()['req_jurusan'],
-                'req_jurusan_2' => $this->input->post()['req_jurusan_2']
-            );
-            $id = $this->ParameterModel->createExam($create);
-            $filter['id_session_exam_user'] = $id;
-
-            // $data = $this->ParameterModel->getExam($filter)[$id]['token'];
-
-            echo json_encode(array('data' => $data));
-        } catch (Exception $e) {
-            ExceptionHandler::handle($e);
-        }
-    }
-
-    public function SubmitExam()
-    {
-        try {
-            $data = $this->input->post();
-            $ans = '';
-            for ($i = 0; $i < $data['count']; $i++) {
-                if ($i == 0) {
-                    if (!empty($data['row_' . $i])) {
-                        $ans .=  $data['row_' . $i];
-                    } else {
-                        $ans .= '0';
-                    }
-                } else {
-                    if (!empty($data['row_' . $i])) {
-                        $ans .= ',' . $data['row_' . $i];
-                    } else {
-                        $ans .= ',0';
-                    }
-                }
-            }
-            $data['answer'] = $ans;
-            $this->ParameterModel->SubmitExam($data);
-
-            if ($data['autosave'] == 'false') {
-                $this->calculateScore($data['token'], true);
-                echo json_encode(['error' => false, 'reload' => true]);
-            } else
-                echo json_encode(['error' => false]);
-        } catch (Exception $e) {
-            ExceptionHandler::handle($e);
-        }
-    }
-
-    public function ujian($token)
-    {
-        try {
-            $this->SecurityModel->userOnlyGuard(TRUE);
-            $filter['token'] = $token;
-            // $filter['id_user'] = $this->session->userdata()['id_user'];
-            if (!empty($this->session->userdata()['id_user']))
-                $filter['id_user'] = $this->session->userdata()['id_user'];
-            else {
-                throw new UserException("Silahkan login ..", USER_NOT_FOUND_CODE);
-            }
-
-            $cur_date = date('Y-m-d H:i:s');
-
-            $data = $this->ParameterModel->getExam($filter);
-            if (!empty($data)) {
-                $data = $data[$token];
-                $ex_soal = explode(',', $data['generate_soal']);
-            }
-            // echo json_encode($data);
-            // die();
-            if ($data['open_start'] > $cur_date) {
-                throw new UserException("Ujian belum dimulai", USER_NOT_FOUND_CODE);
-            }
-            if (empty($data['start_time'])) {
-                $filter['start_time'] = $cur_date;
-                $data['start_time'] = $cur_date;
-                $filter['id_session_exam_user'] = $data['id_session_exam_user'];
-
-                $this->ParameterModel->startExam($filter);
-                // throw new UserException("Ujian belum dimulai", USER_NOT_FOUND_CODE);
-            }
-            // else {
-            //     echo 'blm_mulai';
-            // }
-            // die();
-
-            $c = count($ex_soal);
-            // var_dump($data);
-            $dateTime = new DateTime($data['start_time']);
-            $dateTime->modify('+' . $data['limit_time'] . ' minutes');
-            $t1 = ($dateTime->format("Y-m-d H:i:s"));
-
-            $start = date_create(date("Y-m-d H:i:s"));
-            // $start = date_create('2021-07-14 15:39:20');
-            $end = date_create($t1);
-
-            $start2 = strtotime(date("Y-m-d H:i:s"));
-            $end2 = strtotime($t1);
-            $diff = date_diff($end, $start);
-            // var_dump($end2);
-            // die();
-            if ($end2 < $start2 or $data['exam_lock'] == 'Y') {
-                if (empty($data['score']))
-                    $this->calculateScore($data['token'], true);
-                $this->pageresult($data);
-                // $this->($data);
-                // echo die();
-                return;
-            }
-            $timer = $diff->h * 60 * 60;
-            $timer = $timer + $diff->i * 60;
-            $timer = $timer + $diff->s;
-            // print_r($timer);
-            // die();
-            if (!empty($data['answer'])) {
-                $ans = explode(',', $data['answer']);
-            } else {
-                for ($j = 0; $j < $c; $j++)
-                    $ans[$j] = 0;
-            }
-            $i = 0;
-            $btn = '';
-            foreach ($ex_soal as $ex) {
-                $exs = $this->ParameterModel->getShuffleSoal($ex);
-                $data_soal[$i] = $exs;
-                if ($ans[$i] == '0' or $ans[$i] == '-')
-                    $btn .= '<a data-toggle="pill" class="nav-link btn btn-primary mr-1 mt-1" id="ans_' . $i . '" href="#soal_' . $i . '" role="tab">' . ($i + 1) . '</a>';
-                else
-                    $btn .= '<a data-toggle="pill" class="nav-link btn btn-success mr-1 mt-1" id="ans_' . $i . '" href="#soal_' . $i . '" role="tab">' . ($i + 1) . '</a>';
-                $i++;
-            }
-
-            // echo json_encode(array('data' => $data_soal));
-            // $this->SecurityModel->userOnlyGuard(TRUE);
-            $pageData = array(
-                'title' => 'Ujian',
-                // 'content' => 'public/MyTask',
-                'breadcrumb' => array(
-                    'Home' => base_url(),
-                ),
-                'data_soal' => $data_soal,
-                'btn' => $btn,
-                'ans' => $ans,
-                'token' => $token,
-                'timer' => $timer
-            );
-            $this->load->view('PageExam', $pageData);
-        } catch (Exception $e) {
-            ExceptionHandler::handle($e);
-        }
-    }
-
-    function pembahasan($token)
-    {
-        try {
-            // $this->SecurityModel->userOnlyGuard(TRUE);
-            $data = $this->ParameterModel->getExam(['token' => $token])[$token];
-            // echo json_encode($data);
-            // die();
-            if (!empty($data)) {
-                $data = $data;
-                $ex_soal = explode(',', $data['generate_soal']);
-            }
-            $c = count($ex_soal);
-            // var_dump($data);
-
-            if (!empty($data['answer'])) {
-                $ans = explode(',', $data['answer']);
-            } else {
-                for ($j = 0; $j < $c; $j++)
-                    $ans[$j] = 0;
-            }
-            $i = 0;
-            $btn = '';
-            foreach ($ex_soal as $ex) {
-                $exs = $this->ParameterModel->getShuffleSoal($ex, true);
-                $data_soal[$i] = $exs;
-                if (empty($ans[$i]))
-                    $btn .= '<a data-toggle="pill" class="nav-link btn btn-secondary mr-1 mt-1" id="ans_' . $i . '" href="#soal_' . $i . '" role="tab">' . ($i + 1) . '</a>';
-                else if ($exs['soal']['token_opsi'] != $ans[$i])
-                    $btn .= '<a data-toggle="pill" class="nav-link btn btn-danger mr-1 mt-1" id="ans_' . $i . '" href="#soal_' . $i . '" role="tab">' . ($i + 1) . '</a>';
-                else if ($exs['soal']['token_opsi'] == $ans[$i])
-                    $btn .= '<a data-toggle="pill" class="nav-link btn btn-success mr-1 mt-1" id="ans_' . $i . '" href="#soal_' . $i . '" role="tab">' . ($i + 1) . '</a>';
-                $i++;
-            }
-
-            $pageData = array(
-                'title' => 'Pembahasan',
-                // 'content' => 'public/MyTask',
-                'breadcrumb' => array(
-                    'Home' => base_url(),
-                ),
-                'dataContent' => $data,
-                'data_soal' => $data_soal,
-                'btn' => $btn,
-                'ans' => $ans,
-            );
-            $this->load->view('PagePembahasan', $pageData);
-        } catch (Exception $e) {
-            ExceptionHandler::handle($e);
-        }
-    }
-    function pageresult($data)
-    {
-        try {
-            // $this->SecurityModel->userOnlyGuard(TRUE);
-            $pageData = array(
-                'title' => 'Pre Register',
-                'content' => 'mahasiswa/result',
-                'breadcrumb' => array(
-                    'Home' => base_url(),
-                ),
-                'contentData' => $data,
-            );
-            $this->load->view('Page', $pageData);
-        } catch (Exception $e) {
-            ExceptionHandler::handle($e);
-        }
-    }
-
-    function calculateScore($token, $restric = false)
-    {
-        $data = $this->ParameterModel->getExam(array('token' => $token))[$token];
-        $dateTime = new DateTime($data['start_time']);
-        $dateTime->modify('+' . $data['limit_time'] . ' minutes');
-        $t1 = ($dateTime->format("Y-m-d H:i:s"));
-
-
-        $start2 = strtotime(date("Y-m-d H:i:s"));
-        $end2 = strtotime($t1);
-        if ($end2 + 6 < $start2) {
-        } else {
-            $i = 1;
-            $ans = '';
-            $ans_ex = explode(',', $data['answer']);
-            $i = 0;
-            foreach ($ans_ex as $an) {
-                if ($i == 0) {
-                    $i++;
-                    $ans .= '"' . $an . '"';
-                } else {
-                    $ans .= ',"' . $an . '"';
-                }
-            }
-            // var_dump($ans);
-            // die();
-            $this->ParameterModel->calculateScore($data, $data['generate_soal'], $ans);
-        }
-        // echo 'rest';
+        $this->load->model('PublicModel');
+        $serv = $this->PublicModel->getServerSTMP();
+        // echo json_encode($serv);
         // die();
+        $send['to'] = $email;
+        $send['subject'] = 'Notifikasi Peminjaman';
+        $url_act = base_url();
+        // $url_act = site_url("/peminjaman/{$data['id_peminjaman']}");
+        $content = "<h4>Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
+      </h4>
+                                              <br><br> Nama Mahasiswa : {$data['nama_mahasiswa']}
+                                              <br> Prodi : {$data['nama_jurusan']}
+                                              <br> Laboratorium : {$data['nama_labor']}
+                                              <br> Keterangan : {$data['keterangan']}
+                                              <br> Komputer : {$data['label_komputer']}
+                                              <br> Waktu  : {$data['time_start']} - {$data['time_end']}
+                                             ";
 
-        // $data['point_mode'] = 'avg';
-        $i = 1;
-        $ans = '';
-        $ans_ex = explode(',', $data['answer']);
-        $i = 0;
-        foreach ($ans_ex as $an) {
-            if ($i == 0) {
-                $i++;
-                $ans .= '"' . $an . '"';
-            } else {
-                $ans .= ',"' . $an . '"';
-            }
-        }
-        // var_dump($ans);
-        // die();
-        $this->ParameterModel->calculateScore($data, $data['generate_soal'], $ans);
-        if (!$restric)
-            echo json_encode(array('error' => false));
-        // die();
+        $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>SIPK POLMAN BABEL</a>
+                                             ";
+
+
+        $send['message'] = $this->template_email($send['subject'], $content, $content2);
+
+        $config['protocol']    = 'smtp';
+        $config['smtp_host']    = $serv['url_'];
+        $config['smtp_port']    = $serv['port'];
+        $config['smtp_timeout'] = '20';
+        $config['smtp_user']    = $serv['username'];    //Important
+        $config['smtp_pass']    = $serv['key'];  //Important
+        $config['charset']    = 'utf-8';
+        $config['newline']    = '\r\n';
+        $config['smtp_crypto']    = 'tls';
+        $config['mailtype'] = 'text'; // or html
+        $config['validation'] = TRUE; // bool whether to validate email or not 
+        $send['config'] = $config;
+        // $this->load->libraries('email');
+        $this->email->initialize($send['config']);
+        $this->email->set_mailtype("html");
+        $this->email->from($serv['username']);
+        $this->email->to($send['to']);
+        $this->email->subject($send['subject']);
+        $this->email->message($send['message']);
+        $this->email->send();
+
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        return 0;
+    }
+
+    function template_email($title, $content = '', $content2 = '')
+    {
+        return "<!DOCTYPE>
+                <html xmlns='http://www.w3.org/1999/xhtml'>
+
+                <head>
+                <meta name='viewport' content='width=device-width' />
+                <meta http-equiv='Content-Type' content='text/html; charset=UTF-8' />
+                <title>Actionable emails e.g. reset password</title>
+                </head>
+
+                <body style='-webkit-font-smoothing: antialiased;
+                -webkit-text-size-adjust: none;
+                width: 100% !important;
+                height: 100%;
+                line-height: 1.6;background-color: #f6f6f6;
+                font-family:  Helvetica, Arial, sans-serif;'>
+                <table class='body-wrap' style='background-color: #f6f6f6;	width: 100%;'>
+                  <tr>
+                      <td></td>
+                      <td class='container' width='600' style='display: block !important;
+                                    max-width: 600px !important;
+                                    margin: 0 auto !important;
+                                    clear: both !important;'>
+                          <div class='content' style='max-width: 600px;
+                                margin: 0 auto;
+                                display: block;
+                                padding: 20px;'>
+                              <table class='main' width='100%' cellpadding='0' cellspacing='0' style='	background: #fff;
+                                  border: 1px solid #e9e9e9;
+                                  border-radius: 3px;'>
+                                  <tr>
+                                      <td class='content-wrap' style='padding: 20px;'>
+                                          <table cellpadding='0' cellspacing='0'>
+                                              <tr>
+                                                  <td class='alert alert-good' style='background: #1ab394;font-size: 16px;	color: #fff;	font-weight: 500;
+                                                      padding: 20px;
+                                                      text-align: center;
+                                                      border-radius: 3px 3px 0 0;'>
+                                                      {$title} </td>
+                                              </tr>
+                                              <tr>
+                                                  <td class='content-block' style='padding: 0 0 20px;'>
+                                                      <br>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td class='content-block' style='padding: 0 0 20px;'>
+                                                      {$content}   
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td class='content-block' style='padding: 0 0 20px;'>
+                                                  </td>
+                                              </tr>
+                                              <tr>
+                                                  <td class='content-block aligncenter' style='padding: 0 0 20px; text-align: center;'>
+                                                      {$content2}                                          </td>
+                                                                                            </tr>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                </tr>
+                                                                            </table>
+                                                                            <div class='footer' style='width: 100%;	clear: both;	color: #999;	padding: 20px;'>
+                                                                                <table width='100%'>
+                                                                                    <tr style='text-align: center;'>
+                                                                                        <td class='aligncenter content-block' style='padding: 0 0 20px;'>Kunjungi <a style='color: #999;' href='https://sipk-polmanbabel.my.id/'>Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung</a>.</td>
+                                                                                    </tr>
+                                                                                </table>
+                                                                            </div>
+                                                                        </div>
+                                                                    </td>
+                                                                    <td></td>
+                                                                </tr>
+                                                            </table>
+
+                                                        </body>
+
+                                                        </html>";
     }
 }
