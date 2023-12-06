@@ -56,6 +56,12 @@
                         </div>
                     </div>
                     <div class="col-lg-12">
+                        <div class="form-group">
+                            <label for="time_start"> Keterangan / Tujuan Peminjaman </label>
+                            <textarea type="text" placeholder="" class="form-control" id="keterangan" name="keterangan" required="required"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-lg-12">
                         <a class="btn btn-secondary my-1 mr-sm-2 text-white" id="search_ready_komputer"><i class="fa fa-search"></i> <strong> Cari Komputer</strong></a>
                     </div>
                     <div class="col-lg-12">
@@ -190,7 +196,7 @@
             } else
             if (data == '3') {
                 return '<span class="text-light bold"><i class="fa fa-history text-light">  </i> <b>Checkout</b> </span>'
-            }else
+            } else
             if (data == '4') {
                 return '<span class="text-danger bold"><i class="fa fa-times text-danger">  </i> <b>Batal</b> </span>'
             }
@@ -217,11 +223,10 @@
                     var button = `
                         <button class="batal btn btn-danger" data-id='${exam['id_peminjaman']}'><i class='fa fa-times '></i> Batal </button>
                     `;
-                }
-                else {
+                } else {
                     var button = '';
                 }
-                
+
                 renderData.push([exam['time_start'], exam['time_end'], exam['nama_labor'], exam['label_komputer'], span_status(exam['status']), button]);
             });
             FDataTable.clear().rows.add(renderData).draw('full-hold');
@@ -297,7 +302,9 @@
                 $.ajax({
                     url: "<?= site_url('Mahasiswa/batalPeminjaman') ?>",
                     'type': 'POST',
-                    data: {'id_peminjaman' : id},
+                    data: {
+                        'id_peminjaman': id
+                    },
                     success: function(data) {
                         swal.close();
                         var json = JSON.parse(data);
