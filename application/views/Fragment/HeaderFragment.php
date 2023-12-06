@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="author" content="">
     <meta name="keywords" content="">
-    <title>POLMAN BABEL |Ecommerce Dashboard
+    <title>POLMAN BABEL
     </title>
     <!-- shortcut icon-->
     <link rel="icon" href="<?= base_url() ?>assets/images/logo/icon-logo.png" type="image/x-icon">
