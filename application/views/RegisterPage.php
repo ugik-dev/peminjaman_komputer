@@ -164,7 +164,7 @@
                         } else {
                             // swal("Success Registration", 'check your email to activation', "success").then((result) => {
                             // $(location).attr('href', '<?= base_url() ?>');
-                            swal("Registrasi Berhasil", 'Silahkan masuk menggunakan nip dan password anda!', "success").then((result) => {});
+                            swal("Registrasi Berhasil", 'Silahkan cek gmail anda untuk aktifasi akun, dan login kembali!', "success").then((result) => {});
                         }
                     },
                     error: () => {}
