@@ -177,7 +177,7 @@
 
         var swalConfirm = {
             title: "Konfirmasi",
-            text: "Yakin akan meminjaman pada waktu ini?",
+            text: "Setujui peminjaman?",
             type: "info",
             showCancelButton: true,
             confirmButtonColor: "#18a689",
