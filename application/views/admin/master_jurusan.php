@@ -170,7 +170,7 @@
 
                 var detailButton = `
                     <li>
-                        <a class="detail dropdown-item" href='<?= site_url() ?>AdminController/rekap/${d['id_jurusan']}'><i class='fa fa-share'></i> Rekap</a>
+                        <a class="detail dropdown-item" href='<?= site_url() ?>KepalaLab/rekap/${d['id_jurusan']}'><i class='fa fa-share'></i> Rekap</a>
                     </li>
                     `;
                 var editButton = `
@@ -225,7 +225,7 @@
                     return;
                 }
                 $.ajax({
-                    url: "<?= site_url('AdminController/deleteJurusan') ?>",
+                    url: "<?= site_url('KepalaLab/deleteJurusan') ?>",
                     'type': 'POST',
                     data: {
                         'id_jurusan': id
@@ -271,7 +271,7 @@
                 }
                 buttonLoading(JurusanModal.addBtn);
                 $.ajax({
-                    url: `<?= site_url('AdminController/addJurusan') ?>`,
+                    url: `<?= site_url('KepalaLab/addJurusan') ?>`,
                     'type': 'POST',
                     data: JurusanModal.form.serialize(),
                     success: function(data) {
@@ -299,7 +299,7 @@
                 }
                 buttonLoading(JurusanModal.saveEditBtn);
                 $.ajax({
-                    url: `<?= site_url('AdminController/editJurusan') ?>`,
+                    url: `<?= site_url('KepalaLab/editJurusan') ?>`,
                     'type': 'POST',
                     data: JurusanModal.form.serialize(),
                     success: function(data) {

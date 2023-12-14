@@ -170,7 +170,7 @@
 
                 var detailButton = `
                     <li>
-                        <a class="detail dropdown-item" href='<?= site_url() ?>AdminController/rekap/${d['id_labor']}'><i class='fa fa-share'></i> Rekap</a>
+                        <a class="detail dropdown-item" href='<?= site_url() ?>KepalaLab/rekap/${d['id_labor']}'><i class='fa fa-share'></i> Rekap</a>
                     </li>
                     `;
                 var editButton = `
@@ -225,7 +225,7 @@
                     return;
                 }
                 $.ajax({
-                    url: "<?= site_url('AdminController/deleteLabor') ?>",
+                    url: "<?= site_url('KepalaLab/deleteLabor') ?>",
                     'type': 'POST',
                     data: {
                         'id_labor': id
@@ -271,7 +271,7 @@
                 }
                 buttonLoading(LaborModal.addBtn);
                 $.ajax({
-                    url: `<?= site_url('AdminController/addLabor') ?>`,
+                    url: `<?= site_url('KepalaLab/addLabor') ?>`,
                     'type': 'POST',
                     data: LaborModal.form.serialize(),
                     success: function(data) {
@@ -299,7 +299,7 @@
                 }
                 buttonLoading(LaborModal.saveEditBtn);
                 $.ajax({
-                    url: `<?= site_url('AdminController/editLabor') ?>`,
+                    url: `<?= site_url('KepalaLab/editLabor') ?>`,
                     'type': 'POST',
                     data: LaborModal.form.serialize(),
                     success: function(data) {

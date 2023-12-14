@@ -223,7 +223,7 @@
 
                 var detailButton = `
                 <li>
-      <a class="detail dropdown-item" href='<?= site_url() ?>AdminController/rekap/${d['id_komputer']}'><i class='fa fa-share'></i> Rekap</a>
+      <a class="detail dropdown-item" href='<?= site_url() ?>KepalaLab/rekap/${d['id_komputer']}'><i class='fa fa-share'></i> Rekap</a>
       </li>
       `;
                 var editButton = `
@@ -279,7 +279,7 @@
                     return;
                 }
                 $.ajax({
-                    url: "<?= site_url('AdminController/deleteKomputer') ?>",
+                    url: "<?= site_url('KepalaLab/deleteKomputer') ?>",
                     'type': 'POST',
                     data: {
                         'id_komputer': id
@@ -325,7 +325,7 @@
                 }
                 buttonLoading(KomputerModal.addBtn);
                 $.ajax({
-                    url: `<?= site_url('AdminController/addKomputer') ?>`,
+                    url: `<?= site_url('KepalaLab/addKomputer') ?>`,
                     'type': 'POST',
                     data: KomputerModal.form.serialize(),
                     success: function(data) {
@@ -353,7 +353,7 @@
                 }
                 buttonLoading(KomputerModal.saveEditBtn);
                 $.ajax({
-                    url: `<?= site_url('AdminController/editKomputer') ?>`,
+                    url: `<?= site_url('KepalaLab/editKomputer') ?>`,
                     'type': 'POST',
                     data: KomputerModal.form.serialize(),
                     success: function(data) {
