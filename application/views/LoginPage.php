@@ -39,7 +39,7 @@
     <div class="codex-authbox">
       <div class="auth-header">
         <div class="codex-brand"><a href="index.html"><img class="img-fluid light-logo" src="<?= base_url() ?>assets/images/logo/logo.png" alt=""><img class="img-fluid dark-logo" src="<?= base_url() ?>assets/images/logo/dark-logo.png" alt=""></a></div>
-        <h3>Selamat Datang Sistem Informasi Peminjaman Komputer Politeknik Negeri Babel</h3>
+        <h3>Selamat Datang di Sistem Informasi Peminjaman Komputer Politeknik Negeri Babel</h3>
         <!-- <h6>don't have an account? <a class="text-primary" href="register.html">creat an account</a></h6> -->
       </div>
       <form id="loginForm">
