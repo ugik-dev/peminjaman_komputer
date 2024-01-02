@@ -125,15 +125,24 @@
         });
 
         var ReadyTable = $('#ReadyTable').DataTable({
-            'columnDefs': [{
+            // 'columnDefs': [{
+            //     className: 'dt-center',
+            //     targets: [2]
+            // }, ],
+            // deferRender: false,
+            // "ordering": false,
+            // 'search': false,
+            // "paging": false,
+            // 'info': false
+
+              'columnDefs': [{
                 className: 'dt-center',
                 targets: [2]
             }, ],
-            deferRender: false,
-            "order": false,
-            'searching': false,
-            "paging": false,
-            'info': false
+            deferRender: true,
+            "order": [
+                [0, "desc"]
+            ]
         });
 
         var swalSaveConfigure = {

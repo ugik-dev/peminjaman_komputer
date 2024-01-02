@@ -20,8 +20,8 @@
             <thead>
               <tr>
                 <th style="width: 15%; text-align:center!important">Username</th>
-                <th style="width: 12%; text-align:center!important">Nama</th>
                 <th style="width: 12%; text-align:center!important">Email</th>
+                <th style="width: 12%; text-align:center!important">Nama</th>
                 <th style="width: 12%; text-align:center!important">Role</th>
                 <th style="width: 12%; text-align:center!important">Laboratorium</th>
                 <th style="width: 7%; text-align:center!important">Action</th>

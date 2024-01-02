@@ -15,7 +15,7 @@ class AdminController extends CI_Controller
 
   public function index()
   {
-    $this->SecurityModel->roleOnlyGuard('admin');
+    $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
     $pageData = array(
       'title' => '',
       'content' => 'Dashboard',
@@ -40,7 +40,7 @@ class AdminController extends CI_Controller
 
   public function Kelolahuser()
   {
-    $this->SecurityModel->roleOnlyGuard('admin');
+     $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
     $pageData = array(
       'title' => 'User',
       'content' => 'admin/Kelolahuser',
@@ -51,7 +51,7 @@ class AdminController extends CI_Controller
 
   public function DetailMahasiswa($id)
   {
-    $this->SecurityModel->roleOnlyGuard('admin');
+     $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
     $user = $this->UserModel->getAllUser(['id_user' => $id])[$id];
     $ret_data = $user;
     $pageData = array(
@@ -67,7 +67,7 @@ class AdminController extends CI_Controller
   }
   public function Mahasiswa()
   {
-    $this->SecurityModel->roleOnlyGuard('admin');
+     $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
     $pageData = array(
       'title' => 'Mahasiswa',
       'content' => 'admin/Kelolahmahasiswa',
@@ -81,7 +81,7 @@ class AdminController extends CI_Controller
   public function edit_data_mahasiswa()
   {
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $data =  $this->input->post();
       $user = $this->MahasiswaModel->cek_status(['id_user' => $data['id_user']])[0];
       if (!empty($_FILES['file_nim']['name'])) {
@@ -114,7 +114,7 @@ class AdminController extends CI_Controller
   {
 
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('PeminjamanModel');
       $data = $this->input->post();
       $cur_data = $this->PeminjamanModel->getAllPeminjaman(array('id_peminjaman' => $data['id_peminjaman']))[$data['id_peminjaman']];
@@ -140,7 +140,7 @@ class AdminController extends CI_Controller
 
   public function rekap()
   {
-    $this->SecurityModel->roleOnlyGuard('admin');
+     $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
     $pageData = array(
       'title' => 'Rekap Peminjaman',
       'content' => 'admin/rekap_peminjaman',
@@ -151,7 +151,7 @@ class AdminController extends CI_Controller
 
   public function master_komputer()
   {
-    $this->SecurityModel->roleOnlyGuard('admin');
+     $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
     $pageData = array(
       'title' => 'Master Komputer',
       'content' => 'admin/master_komputer',
@@ -169,7 +169,7 @@ class AdminController extends CI_Controller
   {
 
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('KomputerModel');
       $data = $this->input->post();
       $id = $this->KomputerModel->addKomputer($data);
@@ -183,7 +183,7 @@ class AdminController extends CI_Controller
   public function editKomputer()
   {
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('KomputerModel');
       $data = $this->input->post();
       $this->KomputerModel->editKomputer($data);
@@ -196,7 +196,7 @@ class AdminController extends CI_Controller
 
   public function master_labor()
   {
-    $this->SecurityModel->roleOnlyGuard('admin');
+     $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
     $pageData = array(
       'title' => 'Master Laboratorim',
       'content' => 'admin/master_labor',
@@ -208,7 +208,7 @@ class AdminController extends CI_Controller
   {
 
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('LaborModel');
       $data = $this->input->post();
       $id = $this->LaborModel->addLabor($data);
@@ -222,7 +222,7 @@ class AdminController extends CI_Controller
   public function editLabor()
   {
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('LaborModel');
       $data = $this->input->post();
       $this->LaborModel->editLabor($data);
@@ -235,7 +235,7 @@ class AdminController extends CI_Controller
 
   public function master_jurusan()
   {
-    $this->SecurityModel->roleOnlyGuard('admin');
+     $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
     $pageData = array(
       'title' => 'Master Jurusan',
       'content' => 'admin/master_jurusan',
@@ -248,7 +248,7 @@ class AdminController extends CI_Controller
   {
 
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('JurusanModel');
       $data = $this->input->post();
       $id = $this->JurusanModel->addJurusan($data);
@@ -262,7 +262,7 @@ class AdminController extends CI_Controller
   public function editJurusan()
   {
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('JurusanModel');
       $data = $this->input->post();
       $this->JurusanModel->editJurusan($data);
@@ -276,7 +276,7 @@ class AdminController extends CI_Controller
   public function deleteKomputer()
   {
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('KomputerModel');
       $data = $this->input->post();
       $this->KomputerModel->deleteKomputer($data);
@@ -289,7 +289,7 @@ class AdminController extends CI_Controller
   public function deleteJurusan()
   {
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('JurusanModel');
       $data = $this->input->post();
       $this->JurusanModel->deleteJurusan($data);
@@ -302,7 +302,7 @@ class AdminController extends CI_Controller
   public function deleteLabor()
   {
     try {
-      $this->SecurityModel->roleOnlyGuard('admin');
+       $this->SecurityModel->rolesOnlyGuard(['admin','ka_lab']);
       $this->load->model('LaborModel');
       $data = $this->input->post();
       $this->LaborModel->deleteLabor($data);

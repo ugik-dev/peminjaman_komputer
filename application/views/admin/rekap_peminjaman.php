@@ -63,8 +63,8 @@
             </div>
             <div class="modal-body" id="modal-body">
                 <form role="form" id="peminjaman_form" onsubmit="return false;" type="multipart" autocomplete="off">
-                    <input type="" id="id_peminjaman" name="id_peminjaman">
-                    <input type="" id="type" name="type">
+                    <input type="hidden" id="id_peminjaman" name="id_peminjaman">
+                    <input type="hidden" id="type" name="type">
                     <div class="col-lg-12">
                         <div class="row">
                             <div class="col-lg-12">
