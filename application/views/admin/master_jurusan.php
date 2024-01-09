@@ -1,3 +1,4 @@
+<!-- Tampilan master prodi pada aktor kalab -->
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
@@ -37,7 +38,7 @@
     <div class="modal-dialog modal-lg">
         <div class="modal-content animated fadeIn">
             <div class="modal-header">
-                <h4 class="modal-title">Form Jurusan</h4>
+                <h4 class="modal-title">Form Prodi</h4>
                 <a href="javascript:void(0);" data-bs-dismiss="modal"><i class="ti-close"></i></a>
             </div>
             <div class="modal-body" id="modal-body">

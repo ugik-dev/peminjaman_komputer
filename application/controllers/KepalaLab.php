@@ -160,11 +160,6 @@ class KepalaLab extends CI_Controller
         $this->load->view('Page', $pageData);
     }
 
-
-
-
-
-
     public function addKomputer()
     {
 
@@ -233,11 +228,11 @@ class KepalaLab extends CI_Controller
         }
     }
 
-    public function master_jurusan()
+    public function master_prodi()
     {
         $this->SecurityModel->roleOnlyGuard('ka_lab');
         $pageData = array(
-            'title' => 'Master Jurusan',
+            'title' => 'Master Prodi',
             'content' => 'admin/master_jurusan',
             'breadcrumb' => "Master",
         );

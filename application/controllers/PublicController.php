@@ -43,7 +43,6 @@ class PublicController extends CI_Controller
   {
     try {
       $this->SecurityModel->guestOnlyGuard(TRUE);
-      // Validation::ajaxValidateForm($this->SecurityModel->loginValidation());
       $data = $this->input->post();
       if (empty($data['password']) or empty($data['repassword']) or ($data['repassword'] != $data['password'])) {
         throw new UserException("Password Wrong!!", USER_NOT_FOUND_CODE);
@@ -56,15 +55,6 @@ class PublicController extends CI_Controller
     $data_update['id_user'] = $dataToken[0]['id_user'];
     $data_update['password'] = $data['password'];
       $data = $this->UserModel->resetPass($data_update);
-      // if(empty($data))
-      // throw new UserException("Data yang kamu masukkan tidak ditemukan", USER_NOT_FOUND_CODE);
-      // $data = reset($data);
-      
-      // $res = $this->UserModel->resetPassword($data);
-      // $data['token'] = $res['token'];
-      // $data['id_reset'] = $res['id_reset'];
-      // $data['id'] = 99;
-      // $this->email_send($data, 'reset');
       echo json_encode(array("error" => FALSE, "user" => $dataToken));
     } catch (Exception $e) {
       ExceptionHandler::handle($e);
@@ -75,7 +65,6 @@ class PublicController extends CI_Controller
   {
     try {
       $this->SecurityModel->guestOnlyGuard(TRUE);
-      // Validation::ajaxValidateForm($this->SecurityModel->loginValidation());
       $data = $this->input->post();
       $this->load->model(array('UserModel'));
       $data = $this->UserModel->getAllUser($data);
@@ -86,7 +75,6 @@ class PublicController extends CI_Controller
       $res = $this->UserModel->resetPassword($data);
       $data['token'] = $res['token'];
       $data['id_reset'] = $res['id_reset'];
-      // $data['id'] = 99;
       $this->email_send($data, 'reset');
       echo json_encode(array("error" => FALSE, "user" => $data));
     } catch (Exception $e) {
@@ -97,7 +85,6 @@ class PublicController extends CI_Controller
   public function reset($id, $token)
   {
     try {
-      // $this->SecurityModel->guestOnlyGuard(TRUE);
       $data['token'] = $token;
       $data['id'] = $id;
 
@@ -156,13 +143,11 @@ class PublicController extends CI_Controller
   public function activator($id, $activate)
   {
     try {
-      // $this->SecurityModel->guestOnlyGuard(TRUE);
       $data['activator'] = $activate;
       $data['id'] = $id;
       $this->load->model(array('UserModel'));
 
       $data = $this->UserModel->activatorUser($data);
-      // $this->email_send($data, 'activate');
       redirect('login?activator=1');
     } catch (Exception $e) {
       ExceptionHandler::handle($e);
@@ -173,55 +158,50 @@ class PublicController extends CI_Controller
   {
 
     $serv = $this->PublicModel->getServerSTMP();
-    // echo json_encode($serv);
-    // die();
     $send['to'] = $data['email'];
     if($action == 'reset'){
-      // $data['token'] = 'asd';
-      // $data['id_reset'] = 'sadk342#';
-      $send['subject'] = 'Reset Password Sistem Informasi Peminjaman Komputer Polman Babel';
-      $url_act = site_url("/reset/{$data['id_reset']}/{$data['token']}");
-      $content = "<h4>Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
-      </h4>
-                                              <br><br> Username / NIM : {$data['username']}
-                                              <br> Email : {$data['email']}
-                                              <br> Token : {$data['token']}
-                                              <br>
-                                              <br> Untuk reset password silahkan klik tombol reset dibawah.";
+    $send['subject'] = 'Reset Password Sistem Informasi Peminjaman Komputer Polman Babel';
+    $url_act = site_url("/reset/{$data['id_reset']}/{$data['token']}");
+    $content = "<h4>Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
+    </h4>
+    <br><br> Username / NIM : {$data['username']}
+    <br> Email : {$data['email']}
+    <br> Token : {$data['token']}
+    <br>
+    <br> Untuk reset password silahkan klik tombol reset dibawah.";
 
-                                              $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>Reset sekarang</a>
-                                              <br> atau masuk kealamat {$url_act} ";
+    $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>Reset sekarang</a>
+    <br> atau masuk kealamat {$url_act} ";
     
     }else{
-      $send['subject'] = 'Aktifasi Sistem Informasi Peminjaman Komputer Polman Babel';
-      $url_act = site_url("/activator/{$data['id']}/{$data['activator']}");
-      $content = "<h4>Selamat datang di Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
+    $send['subject'] = 'Aktifasi Sistem Informasi Peminjaman Komputer Polman Babel';
+    $url_act = site_url("/activator/{$data['id']}/{$data['activator']}");
+    $content = "<h4>Selamat datang di Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
     </h4><br><br>Email anda telah berhasil didaftarkan.
-                                            <br><br> Username / NIM : {$data['username']}
-                                            <br> Email : {$data['email']}
-                                            <br> Activator : {$data['activator']}
-                                            <br>
-                                            <br> Untuk login harap melakukan aktivasi email terlebih dahulu dengan klik tombol aktifasi dibawah.";
-  
-                                            $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>Aktifkan sekarang</a>
-                                            <br> atau masuk kealamat {$url_act} ";
+    <br><br> Username / NIM : {$data['username']}
+    <br> Email : {$data['email']}
+    <br> Activator : {$data['activator']}
+    <br>
+    <br> Untuk login harap melakukan aktivasi email terlebih dahulu dengan klik tombol aktifasi dibawah.";
+
+    $content2 = "<a href='{$url_act}' target='_blank' class='btn-primary' style='text-decoration: none;color: #fff;background-color: #1ab394;border: solid #1ab394;border-width: 5px 10px;line-height: 2;font-weight: bold;text-align: center;cursor: pointer;display: inline-block;border-radius: 5px; text-transform: capitalize;'>Aktifkan sekarang</a>
+    <br> atau masuk kealamat {$url_act} ";
   }
     
     $send['message'] = $this->template_email($send['subject'], $content, $content2);
 
-     $config['protocol']    = 'smtp';
+    $config['protocol']    = 'smtp';
     $config['smtp_host']    = $serv['url_'];
     $config['smtp_port']    = $serv['port'];
     $config['smtp_timeout'] = '20';
-    $config['smtp_user']    = $serv['username'];    //Important
-    $config['smtp_pass']    = $serv['key'];  //Important
+    $config['smtp_user']    = $serv['username'];
+    $config['smtp_pass']    = $serv['key'];
     $config['charset']    = 'utf-8';
     $config['newline']    = '\r\n';
     $config['smtp_crypto']    = 'tls';
-    $config['mailtype'] = 'text'; // or html
-    $config['validation'] = TRUE; // bool whether to validate email or not 
+    $config['mailtype'] = 'text';
+    $config['validation'] = TRUE;
     $send['config'] = $config;
-    // $this->load->libraries('email');
     $this->email->initialize($send['config']);
     $this->email->set_mailtype("html");
     $this->email->from($serv['username']);

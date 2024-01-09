@@ -33,7 +33,7 @@
                 <ul class="submenu-list">
                     <li><a href="<?= base_url('KepalaLab/master_labor') ?>">Laboratorium</a></li>
                     <li><a href="<?= base_url('KepalaLab/master_komputer') ?>">Komputer</a></li>
-                    <li><a href="<?= base_url('KepalaLab/master_jurusan') ?>"> Jurusan</a></li>
+                    <li><a href="<?= base_url('KepalaLab/master_prodi') ?>"> Prodi</a></li>
 
                 </ul>
             </li>

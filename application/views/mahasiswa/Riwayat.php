@@ -1,3 +1,4 @@
+<!-- Tampilan Riwayat Peminjaman Mahasiswa -->
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -125,15 +126,6 @@
         });
 
         var ReadyTable = $('#ReadyTable').DataTable({
-            // 'columnDefs': [{
-            //     className: 'dt-center',
-            //     targets: [2]
-            // }, ],
-            // deferRender: false,
-            // "ordering": false,
-            // 'search': false,
-            // "paging": false,
-            // 'info': false
 
               'columnDefs': [{
                 className: 'dt-center',

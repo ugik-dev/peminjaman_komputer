@@ -1,3 +1,4 @@
+<!-- Tampilan halaman rekap peminjaman pada admin dan kalab -->
 <div class="row">
     <div class="col-12">
         <div class="card">
@@ -121,7 +122,6 @@
             "paging": false,
             'info': false,
             "scrollX": true,
-            // scrollCollapse: true,
             dom: 'Bfrtip',
         buttons: [
             {
@@ -204,7 +204,6 @@
         $.when(getAllLabor(), getRekap()).done(function(a1, a2, a3) {
             swal.close();
         });
-        // getRekap()
         toolbar.id_labor.on('change', () => {
             return $.ajax({
                 url: `<?php echo site_url('GeneralController/getAllKomputer/') ?>`,
@@ -273,10 +272,8 @@
             });
             console.log(dataCount);
 
-            // Update the count down every 1 second
             var x = setInterval(function() {
 
-                // Get today's date and time
                 var now = new Date().getTime();
 
                 Object.values(dataCount).forEach((d) => {
@@ -284,9 +281,7 @@
 
                     var countDownDate = new Date(curData['end']).getTime();
 
-                    // Find the distance between now and the count down date
                     var distance = countDownDate - now;
-                    // Time calculations for days, hours, minutes and seconds
                     var days = Math.floor(distance / (1000 * 60 * 60 * 24));
                     var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -294,13 +289,9 @@
 
                     var id = $(d).html(days + "d " + hours + "h " +
                         minutes + "m " + seconds + "s ");
-                    // console.log(id);
-                    // If the count down is over, write some text 
                     if (distance < 0) {
                         $(d).removeClass('text-success')
                         $(d).addClass('text-danger')
-                        // clearInterval(x);
-                        // document.getElementById("demo").innerHTML = "EXPIRED";
                     }
                 });
 
@@ -314,18 +305,11 @@
             } else
             if (data == '2') {
                 console.log(start);
-                // var date1 = new Date(start).getTime();
-                // var now = new Date().getTime();
                 var date1 = new Date(start); // 9:00 AM
-
                 var date2 = new Date(end); // 5:00 PM
                 console.log(date1);
                 console.log(date2);
-                // if (date2 < date1) {
-                //     date2.setDate(date2.getDate() + 1);
-                // }
                 var diff = date2 - date1;
-
                 var msec = diff;
                 var hh = Math.floor(msec / 1000 / 60 / 60);
                 msec -= hh * 1000 * 60 * 60;
@@ -333,21 +317,15 @@
                 msec -= mm * 1000 * 60;
                 var ss = Math.floor(msec / 1000);
                 msec -= ss * 1000;
-
                 console.log(hh + ":" + mm + ":" + ss);
-
                 if (date1 < date2) {
                     var milisec_diff = date2 - date1;
                 } else {
                     var milisec_diff = date2 - date1;
                 }
-
                 var days = Math.floor(milisec_diff / 1000 / 60 / (60 * 24));
-
                 var date_diff = new Date(milisec_diff);
-
                 console.log(days + " Days " + date_diff.getHours() + " Hours " + date_diff.getMinutes() + " Minutes " + date_diff.getSeconds() + " Seconds");
-                // }
                 time = 'start';
 
                 return `<span class="text-success bold"><i class="fa fa-check-square-o text-success">  </i> <b>Checkin</b> </span>
@@ -415,7 +393,6 @@
                         <button class="checkout btn btn-success btn-sm btn-block" data-id='${rent['id_peminjaman']}'><i class='fa fa-sign-out'></i> Checkout </button>
                     `;
 
-                // <button class="batal btn btn-danger btn-sm btn-block" data-id='${rent['id_peminjaman']}'><i class='fa fa-times '></i> Batalkan </button>
                 button = button + `
               </div>`;
                 renderData.push([rent['time_start'].slice(0, 16), rent['time_end'].slice(0, 16), rent['nama_labor'], rent['label_komputer'], rent['nama_mahasiswa'], rent['nama_jurusan'], rent['keterangan'], rent['status'] != 2 ? span_status(rent['status']) : span_status(rent['status'], rent['time_start'], rent['time_end'], rent['id_peminjaman']), button]);
@@ -500,7 +477,6 @@
                 if (!result.value) {
                     return;
                 }
-                // swalLoading();
 
                 $.ajax({
                     url: "<?= site_url('AdminController/action') ?>",
@@ -513,12 +489,10 @@
                             swal("Gagal", json['message'], "error");
                             return;
                         }
-                        // delete dataRiwayat[id];
                         dataRiwayat[json['data']['id_peminjaman']] = json['data'];
                         renderRiwayat(dataRiwayat);
                         swal("Berhasil", "", "success");
                         PeminjamanModal.self.modal('hide');
-                        // location.reload();
                         // window.location.href = '<?= base_url() ?>my-task/' + json['data'];
                         // renderRiwayat(dataRiwayat);
                     },

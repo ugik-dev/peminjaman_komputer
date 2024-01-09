@@ -1,3 +1,4 @@
+<!-- Tampilan master komputer pada aktor kalab -->
 <div class="row">
     <div class="col-lg-12">
         <div class="card">

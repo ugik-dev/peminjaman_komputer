@@ -62,7 +62,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label>Nama Jurusan</label>
+                                <label>Nama Prodi</label>
                                 <input type="text" value="<?= !empty($ret_data['nama_jurusan']) ? $ret_data['nama_jurusan'] : '' ?>" class="form-control" disabled="disabled">
                             </div>
                         </div>

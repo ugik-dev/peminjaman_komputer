@@ -47,17 +47,6 @@ class Mahasiswa extends CI_Controller
         );
         $this->load->view('Page', $pageData);
     }
-    public function getKelasSaya()
-    {
-        try {
-            $this->SecurityModel->userOnlyGuard();
-            $data = $this->SiswaModel->getKelasSaya();
-            echo json_encode(array('data' => $data));
-        } catch (Exception $e) {
-            ExceptionHandler::handle($e);
-        }
-    }
-
 
     public function update_profile()
     {
@@ -195,20 +184,7 @@ class Mahasiswa extends CI_Controller
         }
     }
 
-    // public function editPeminjaman()
-    // {
 
-    //     try {
-    //         $this->SecurityModel->roleOnlyGuard('admin');
-    //         $this->load->model('PeminjamanModel');
-    //         $data = $this->input->post();
-    //         $this->PeminjamanModel->editPeminjaman($data);
-    //         $data = $this->PeminjamanModel->getAllPeminjaman(array('id_peminjaman' => $data['id_peminjaman']))[$data['id_peminjaman']];
-    //         echo json_encode(array('data' => $data));
-    //     } catch (Exception $e) {
-    //         ExceptionHandler::handle($e);
-    //     }
-    // }
 
 
     public function email_send($email, $data)
@@ -250,7 +226,6 @@ class Mahasiswa extends CI_Controller
         $config['mailtype'] = 'text'; // or html
         $config['validation'] = TRUE; // bool whether to validate email or not 
         $send['config'] = $config;
-        // $this->load->libraries('email');
         $this->email->initialize($send['config']);
         $this->email->set_mailtype("html");
         $this->email->from($serv['username']);
