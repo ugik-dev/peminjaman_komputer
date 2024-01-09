@@ -52,7 +52,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 $route['default_controller'] = 'UserController';
 $route['login'] = 'UserController/login';
 $route['register'] = 'PublicController/register';
-// $route['my-task'] = 'PublicController/my_task';
 $route['my-task/(:any)'] = 'Pendaftar/start_exam/$1';
 $route['search/(:num)'] = 'PublicController/searchDetail/$1';
 $route['search/(:num)/(:num)'] = 'PublicController/searchAbsen/$1/$2';
@@ -74,7 +73,5 @@ $route['guest'] = 'GuestController/index';
 $route['activator/(:num)/(:any)'] = "PublicController/activator/$1/$2";
 $route['reset2-process'] = 'PublicController/reset2Process';
 $route['reset/(:num)/(:any)'] = "PublicController/reset/$1/$2";
-
-
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

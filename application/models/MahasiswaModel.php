@@ -18,7 +18,6 @@ class MahasiswaModel extends CI_Model
     public function getRiwayat($filter = [])
     {
 
-        // $this->db->select("u.* , pjo.username , pjo.nama, ta.*, jk.* ,jj.nama_jurusan");
         $this->db->from('peminjaman as p');
         if (!empty($filter['id_peminjaman'])) $this->db->where('p.id_peminjaman', $filter['id_peminjaman']);
         if ($this->session->userdata()['nama_role'] == 'mahasiswa') {
@@ -64,6 +63,5 @@ class MahasiswaModel extends CI_Model
         $this->db->update('user');
 
         ExceptionHandler::handleDBError($this->db->error(), "Ubah  Data Mahasiswa", "data_mahasiswa");
-        // return $data['id_submit_task'];
     }
 }

@@ -12,7 +12,6 @@ class Mahasiswa extends CI_Controller
     }
     function cek_status()
     {
-        // $status =  $this->MahasiswaModel->cek_status(['id_user' => $this->session->userdata('id_user')]);
         $status =  $this->MahasiswaModel->cek_status(['id_user' => $this->session->userdata('id_user')]);
         if (empty($status)) {
             redirect(base_url('mahasiswa/pre'));
@@ -53,7 +52,6 @@ class Mahasiswa extends CI_Controller
         try {
             $this->load->model('UserModel');
             $data =  $this->input->post();
-            // var_dump($_FILES);
             if (!empty($_FILES['file_nim']['name'])) {
                 $config['upload_path']          = './upload/nim';
                 $config['allowed_types']        = 'jpeg|jpg|png';
@@ -94,7 +92,6 @@ class Mahasiswa extends CI_Controller
 
             );
             $this->load->view('Page', $pageData);
-            // $this->load->view('test');
         } catch (Exception $e) {
             ExceptionHandler::handle($e);
         }
@@ -108,7 +105,6 @@ class Mahasiswa extends CI_Controller
             $this->SecurityModel->rolesOnlyGuard(array('guru'), true);
             $data = $this->input->post();
             $this->GuruModel->delete_task($data);
-            // $this->KelolahmapelModel->getKelolahuser($idKelolahuser);
             echo json_encode(array('data' => $data));
         } catch (Exception $e) {
             ExceptionHandler::handle($e);
@@ -119,7 +115,6 @@ class Mahasiswa extends CI_Controller
     {
         try {
             $this->SecurityModel->userOnlyGuard(TRUE);
-            // $filter['id_user'] = $this->session->userdata()['id_user'];
             if (!empty($this->session->userdata()['id_user']))
                 $filter['id_user'] = $this->session->userdata()['id_user'];
             else
@@ -192,12 +187,9 @@ class Mahasiswa extends CI_Controller
 
         $this->load->model('PublicModel');
         $serv = $this->PublicModel->getServerSTMP();
-        // echo json_encode($serv);
-        // die();
         $send['to'] = $email;
         $send['subject'] = 'Notifikasi Peminjaman';
         $url_act = base_url();
-        // $url_act = site_url("/peminjaman/{$data['id_peminjaman']}");
         $content = "<h4>Sistem Informasi Peminjaman Komputer Politeknik Manufaktur Bangka Belitung
       </h4>
                                               <br><br> Nama Mahasiswa : {$data['nama_mahasiswa']}
