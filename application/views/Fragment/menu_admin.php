@@ -1,5 +1,5 @@
 <aside class="codex-sidebar">
-    <div class="logo-gridwrap"><a class="codexbrand-logo" href="index.html"><img class="img-fluid" src="<?= base_url() ?>assets/images/logo/logo.png" alt="theeme-logo"></a><a class="codex-darklogo" href="index.html"><img class="img-fluid" src="<?= base_url() ?>assets/images/logo/dark-logo.png" alt="theeme-logo"></a>
+    <div class="logo-gridwrap"><a class="codexbrand-logo" href="<?=base_url()?>"><img class="img-fluid" src="<?= base_url() ?>assets/images/logo/logo.png" alt="theeme-logo"></a><a class="codex-darklogo" href="index.html"><img class="img-fluid" src="<?= base_url() ?>assets/images/logo/dark-logo.png" alt="theeme-logo"></a>
         <div class="sidebar-action"><i data-feather="menu"></i></div>
     </div>
     <div class="icon-logo"><a href="index.html"><img class="img-fluid" src="<?= base_url() ?>assets/images/logo/logo1.png" alt="theeme-logo"></a></div>

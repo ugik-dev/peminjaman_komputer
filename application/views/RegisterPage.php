@@ -86,9 +86,9 @@
                     <input type="text" placeholder="Tahun Masuk" min="1000" class="form-control" id="tahun_masuk" name="tahun_masuk" required="required">
                 </div>
                 <div class="form-group">
-                    <label class="form-label">Jurusan</label>
+                    <label class="form-label">Prodi</label>
                     <option></option>
-                    <select placeholder="Jurusan" class="form-control" id="id_jurusan" name="id_jurusan" required="required">
+                    <select placeholder="Prodi" class="form-control" id="id_jurusan" name="id_jurusan" required="required">
                         <?php
                         foreach ($jurusan as $j) {
                             echo "<option value='" . $j['id_jurusan'] . "' >" . $j['nama_jurusan'] . " </option>";
@@ -115,27 +115,10 @@
                     Register</button>
                 <a class="btn btn-default block full-width m-b" href="<?= base_url('login') ?>">Login</a>
             </form>
-            <!-- <div class="auth-footer">
-        <h5 class="auth-with">Or login in with </h5>
-        <ul class="login-list">
-          <li><a class="bg-fb" href="javascript:void(0);"> <img class="img-fluid" src="<?= base_url() ?>assets/images/auth/1.png" alt="facebook">facebook</a></li>
-          <li><a class="bg-google" href="javascript:void(0);"> <img class="img-fluid" src="<?= base_url() ?>assets/images/auth/2.png" alt="google">google</a></li>
-        </ul>
-      </div> -->
         </div>
     </div>
     <script>
         $(document).ready(function() {
-
-
-            // Swal.fire({
-            //     title: 'Success Registration',
-            //     // html: 'check your email to activation',
-            //     icon: 'success',
-            // }).then((result) => {
-            //     $(location).attr('href', '<?= base_url() ?>');
-            // })
-
             var registerForm = $('#registerForm');
             var submitBtn = registerForm.find('#registerBtn');
             var login_page = $('#login_page');

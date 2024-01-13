@@ -15,10 +15,6 @@ class PublicModel extends CI_Model
 		$res = $res->result_array();
 
 		$this->db->select("p.id_labor, nama_labor,count(l.id_peminjaman) jmlh_peminjaman");
-		// $this->db->select("count(p.id_komputer),k.id_labor, l.nama_labor");
-		// $this->db->from("peminjaman p");
-		// $this->db->join("komputer k", 'k.id_komputer = p.id_komputer');
-		// $this->db->join("labor l", 'k.id_labor = l.id_labor', 'LEFT');
 		$this->db->from("labor p");
 		$this->db->join("komputer k", 'k.id_labor = p.id_labor');
 		$this->db->join("peminjaman l", 'k.id_komputer = l.id_komputer', 'LEFT');
@@ -31,8 +27,6 @@ class PublicModel extends CI_Model
 		$chart['komputer'] = [];
 		$chart['peminjaman'] = [];
 		foreach ($res as $key => $r) {
-			// echo json_encode($key);
-			// die();
 			if ($key == 0) {
 				$chart['nama_labor'][] = '';
 				$chart['komputer'][] = $res[$key]['jmlh_komputer'];
@@ -56,7 +50,6 @@ class PublicModel extends CI_Model
 		$this->db->where("ssk.type", $tipe);
 		$res = $this->db->get();
 		$res = $res->result_array();
-		// var_dump($res);
 		return $res['0'];
 	}
 }

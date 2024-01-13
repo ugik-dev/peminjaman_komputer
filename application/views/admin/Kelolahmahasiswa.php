@@ -28,7 +28,7 @@
 
               <th style="width: 5%; text-align:center!important">NIM</th>
               <th style="width: 12%; text-align:center!important">Nama</th>
-              <th style="width: 12%; text-align:center!important">Jurusan</th>
+              <th style="width: 12%; text-align:center!important">Prodi</th>
               <th style="width: 5%; text-align:center!important">Status</th>
               <th style="width: 7%; text-align:center!important">Action</th>
             </tr>

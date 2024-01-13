@@ -101,14 +101,9 @@ function intToDay(val) {
 }
 
 function statusData(val) {
-	if (val == 0)
-		return '<span class="badge badge-secondary">Belum input data</span>';
-	else if (val == 1)
-		return '<span class="badge badge-primary">Menunggu Verifikasi</span>';
-	else if (val == 2)
-		return '<span class="badge badge-success">Diverifikasi</span>';
-	else if (val == 3) return '<span class="badge badge-danger">Ditolak</span>';
-	else return '<span class="badge badge-secondary">Belum input data</span>';
+	if (val == 0) return '<span class="badge badge-success">Aktif</span>';
+	else if (val == 1) return '<span class="badge badge-success">Aktif</span>';
+	else return '<span class="badge badge-danger">Tidak Aktif</span>';
 }
 
 function empty(str) {

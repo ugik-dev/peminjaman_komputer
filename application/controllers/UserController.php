@@ -21,14 +21,12 @@ class UserController extends CI_Controller
 	{
 		$this->SecurityModel->guestOnlyGuard();
 		$get = $this->input->get();
-// var_dump($get);
-// die();
 		$pageData = array(
-			'title' => 'Masuk',
-		);
+			'title' => 'Masuk',  
+		); 	
 if(!empty($get['activator'])) $pageData['activator'] = $get['activator'];
 		$this->load->view('LoginPage', $pageData);
-	}
+	} 
 
 	public function loginProcess()
 	{

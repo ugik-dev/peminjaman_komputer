@@ -15,17 +15,12 @@ class UserModel extends CI_Model
 	}
 	public function getAllUser($filter = [], $key = true)
 	{
-		// if (isset($filter['isSimple'])) {
-		// 	$this->db->select('u.id_user, u.username, u.photo, u.nama, u.id_role');
-		// } else {
 		$this->db->select("u.*, r.*,j.*,l.*");
-		// }
 		$this->db->from('user as u');
 		$this->db->join('role as r', 'r.id_role = u.id_role');
 		$this->db->join('jurusan as j', 'j.id_jurusan = u.id_jurusan', 'LEFT');
 		$this->db->join("labor as l", "l.id_labor = u.id_lab", 'left');
 
-		// $this->db->join('kabupaten as k', 'k.id_kabupaten = u.id_kabupaten','left');
 
 		if (isset($filter['username'])) $this->db->where('u.username', $filter['username']);
 		if (isset($filter['ex_role'])) $this->db->where_not('u.id_role', $filter['ex_role']);
@@ -186,19 +181,13 @@ class UserModel extends CI_Model
 		if (empty($res)) {
 			redirect('login?activator=Data tidak ditemukan atau email anda sudah diaktifkan sebelumnya');
 			return;
-			// throw new UserException('Activation failed or has active please check your email or try to login', USER_NOT_FOUND_CODE);
 		} else {
-			// $this->cekUserByEmailBuyer($res[0]);
 			$this->cekUserByEmail($res[0], true);
 			$this->cekUserByUsername($res[0]['username'], true);
 
 			$res[0]['id_role'] = '4';
-			// $res[0]['email'] = '4';
 			$res[0]['password'] = $res[0]['password'];
 			$res[0]['id_user'] = $this->addUser($res[0], true);
-			//	$this->addPerusahaan($res[0]);
-			// $this->db->where('id', $res[0]['id']);
-			// $this->db->delete('user_register');
 			return $res[0];
 		};
 	}

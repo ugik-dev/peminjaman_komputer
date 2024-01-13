@@ -137,8 +137,6 @@
             }
         });
 
-        // getAllJurusan()
-
         function getAllJurusan() {
             return $.ajax({
                 url: `<?php echo site_url('GeneralController/getAllJurusan/') ?>`,
@@ -155,7 +153,6 @@
                 error: function(e) {}
             });
         }
-
 
 
         function renderJurusan(data) {

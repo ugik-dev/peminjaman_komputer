@@ -5,20 +5,17 @@
                 <form id="preForm" class="m-t" role="form">
                     <?php
                     if (empty($ret_data['id_data'])) {
-                        echo '<div class="alert alert-secondary">Belum input data</div>';
+                        echo '<div class="alert alert-success">Aktif</div>';
                     } else {
                         if ($ret_data['status_data'] == 0) {
-                            echo '<div class="alert alert-secondary">Belum input data</div>';
+                            echo '<div class="alert alert-success">Aktif</div>';
                         } else if ($ret_data['status_data'] == 1) {
-                            echo '<div class="alert alert-primary">Menunggu Verifikasi</div>';
-                        } else if ($ret_data['status_data'] == 2) {
-                            echo '<div class="alert alert-success">Diverifikasi</div>';
-                        } else if ($ret_data['status_data'] == 3) {
-                            echo '<div class="alert alert-danger">Ditolak</div>';
-                        }
+                            echo '<div class="alert alert-success">Aktif</div>';
+                        } else  {
+                            echo '<div class="alert alert-danger">Non Aktif</div>';
+                        } 
                     }
                     ?>
-                    <!-- <div class="alert alert-danger"><i class='fa fa-pencil-square-o '></i>Sudah dimulai</div> -->
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
@@ -91,7 +88,6 @@
                         Simpan</button>
                 </form>
                 <p class="m-t">
-                    <!-- <small style="color: black;">DINAS PENDIDIKAN PROVINSI KEP. BANGKA BELITUNG</small> -->
                 </p>
             </div>
         </div>
@@ -110,18 +106,13 @@
 
         preForm.submit(function(ev) {
             ev.preventDefault();
-            // buttonLoading(submitBtn);
             $.ajax({
                 url: "<?= base_url() . 'mahasiswa/update_profile' ?>",
                 type: "POST",
-                // data: preForm.serialize(),
                 data: new FormData(this),
                 processData: false,
                 contentType: false,
-                // cache: false,
-                // async: false,
                 success: (data) => {
-                    // buttonIdle(submitBtn);
                     json = JSON.parse(data);
                     if (json['error']) {
                         swal("Submit Gagal", json['message'], "error");
@@ -130,10 +121,8 @@
                         swal("Submit Berhasil", '', "success");
                     }
                     location.reload();
-                    // $(location).attr('href', '<?= site_url() ?>' + json['user']['nama_controller']);
                 },
                 error: () => {
-                    // buttonIdle(submitBtn);
                 }
             });
         });

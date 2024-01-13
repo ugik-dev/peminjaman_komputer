@@ -9,7 +9,6 @@ class MahasiswaModel extends CI_Model
     {
         $this->db->select('*');
         $this->db->from('user as u');
-        $this->db->join('data_mahasiswa as dp ', 'u.id_data = dp.id_data', 'left');
         $this->db->where('id_user', $data['id_user']);
         $res = $this->db->get();
         return $res->result_array();
@@ -31,26 +30,7 @@ class MahasiswaModel extends CI_Model
         return DataStructure::keyValue($res->result_array(), 'id_mapping_siswa');
     }
 
-    public function addData($data)
-    {
-
-        $dataInsert = DataStructure::slice(
-            $data,
-            [
-                'no_ktp', 'file_nim', 'swa_foto', 'tempat_lahir', 'nama_sekolah', 'nomor_ijazah', 'alamat_sekolah', 'nomor_ktp', 'tanggal_lahir', 'status_data',
-                'file_ijazah'
-            ]
-        );
-        $this->db->insert('data_mahasiswa', $dataInsert);
-        ExceptionHandler::handleDBError($this->db->error(), "Insert Data Mahasiswa", "data_mahasiswa");
-        $id = $this->db->insert_id();
-
-        $this->db->set('id_data', $id);
-        $this->db->where('id_user', $this->session->userdata('id_user'));
-        $this->db->update('user');
-        ExceptionHandler::handleDBError($this->db->error(), "Ubah  Data Mahasiswa", "data_mahasiswa");
-    }
-
+   
     public function editData($data)
     {
         $this->db->set(DataStructure::slice(

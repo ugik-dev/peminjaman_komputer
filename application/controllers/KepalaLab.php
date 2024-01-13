@@ -7,7 +7,7 @@ class KepalaLab extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->load->model(array('AdminModel', 'ParameterModel',  'UserModel', 'MahasiswaModel', 'PeminjamanModel'));
+        $this->load->model(array('ParameterModel',  'UserModel', 'MahasiswaModel', 'PeminjamanModel'));
         $this->db->debug = true;
     }
 
@@ -98,12 +98,8 @@ class KepalaLab extends CI_Controller
                 }
             }
 
-            if (!empty($user['id_data'])) {
-                $data['id_data'] = $user['id_data'];
                 $this->MahasiswaModel->editData($data);
-            } else {
-                $this->MahasiswaModel->addData($data);
-            }
+         
             echo json_encode($user);
         } catch (Exception $e) {
             ExceptionHandler::handle($e);

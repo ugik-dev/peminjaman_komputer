@@ -11,15 +11,6 @@ class PublicController extends CI_Controller
     $this->load->helper(array('DataStructure', 'Validation'));
   }
 
-
-  public function search()
-  {
-    $this->load->view('PublicPage', [
-      'title' => "Search",
-      'content' => 'public/Search',
-    ]);
-  }
-
   public function register()
   {
     $this->SecurityModel->guestOnlyGuard();
@@ -103,7 +94,6 @@ class PublicController extends CI_Controller
   {
     try {
       $this->SecurityModel->guestOnlyGuard(TRUE);
-      // Validation::ajaxValidateForm($this->SecurityModel->loginValidation());
 
       $data = $this->input->post();
 
@@ -120,25 +110,6 @@ class PublicController extends CI_Controller
     }
   }
 
-
-
-  public function my_task()
-  {
-    try {
-
-      $this->SecurityModel->userOnlyGuard(TRUE);
-      $pageData = array(
-        'title' => 'My Task',
-        'content' => 'public/MyTask',
-        'breadcrumb' => array(
-          'Home' => base_url(),
-        ),
-      );
-      $this->load->view('Page', $pageData);
-    } catch (Exception $e) {
-      ExceptionHandler::handle($e);
-    }
-  }
 
   public function activator($id, $activate)
   {

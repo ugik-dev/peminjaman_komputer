@@ -5,7 +5,6 @@ class PeminjamanModel extends CI_Model
 {
     public function getAllPeminjaman($filter = [])
     {
-        // echo json_encode($filter);
         $this->db->select('p.*, k.id_komputer, k.id_labor, k.label_komputer ,l.*,u.nama nama_mahasiswa, j.nama_jurusan');
         $this->db->from('peminjaman as p');
         $this->db->join('user u', 'p.id_user = u.id_user');
@@ -17,7 +16,6 @@ class PeminjamanModel extends CI_Model
 
 
         if ($this->session->userdata('id_role') == 1) {
-            // $this->db->where('l.id_labor', $this->session->userdata('id_lab'));
         }
         if (!empty($filter['id_komputer'])) $this->db->where('k.id_komputer', $filter['id_komputer']);
         if (!empty($filter['id_user'])) $this->db->where('p.id_user', $filter['id_user']);

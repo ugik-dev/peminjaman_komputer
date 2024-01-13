@@ -98,35 +98,6 @@ class Mahasiswa extends CI_Controller
     }
 
 
-
-    public function delete_task()
-    {
-        try {
-            $this->SecurityModel->rolesOnlyGuard(array('guru'), true);
-            $data = $this->input->post();
-            $this->GuruModel->delete_task($data);
-            echo json_encode(array('data' => $data));
-        } catch (Exception $e) {
-            ExceptionHandler::handle($e);
-        }
-    }
-
-    public function getYourHistory()
-    {
-        try {
-            $this->SecurityModel->userOnlyGuard(TRUE);
-            if (!empty($this->session->userdata()['id_user']))
-                $filter['id_user'] = $this->session->userdata()['id_user'];
-            else
-                $filter['ip_address'] = $this->input->ip_address();
-            $data = $this->ParameterModel->getYourHistory($filter);
-            echo json_encode(array('data' => $data));
-        } catch (Exception $e) {
-            ExceptionHandler::handle($e);
-        }
-    }
-
-
     public function getRiwayat()
     {
         try {

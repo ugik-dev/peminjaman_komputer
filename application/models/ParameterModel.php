@@ -14,7 +14,6 @@ class ParameterModel extends CI_Model
 		}
 		$this->db->from('user as u');
 		$this->db->join('role as r', 'r.id_role = u.id_role');
-		// $this->db->join('kabupaten as k', 'k.id_kabupaten = u.id_kabupaten','left');
 
 		if (isset($filter['username'])) $this->db->where('u.username', $filter['username']);
 		if (isset($filter['id_user'])) $this->db->where('u.id_user', $filter['id_user']);

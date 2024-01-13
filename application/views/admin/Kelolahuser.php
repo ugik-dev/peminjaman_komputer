@@ -3,10 +3,6 @@
     <div class="card">
       <div class="card-body">
         <form class="form-inline" id="toolbar_form" onsubmit="return false;">
-          <!-- <input type="text" placeholder="Nama / NIK" class="form-control my-1 mr-sm-2" id="search" name="search">
-          <input type="hidden" class="form-control my-1 mr-sm-2" id="ex_role" name="ex_role" value="4">
-
-          <button type="submit" class="btn btn-success my-1 mr-sm-2" id="show_btn" data-loading-text="Loading..." onclick="this.form.target='show'"><i class="fal fa-search"></i> Cari</button> -->
           <button type="submit" class="btn btn-primary my-1 mr-sm-2" id="add_btn" data-loading-text="Loading..." onclick="this.form.target='add'"><i class="fa fa-plus"></i> Tambah</button>
         </form>
       </div>

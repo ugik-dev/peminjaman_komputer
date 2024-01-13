@@ -5,7 +5,6 @@ class KomputerModel extends CI_Model
 {
 	public function getAllKomputer($filter = [])
 	{
-		// echo json_encode($filter);
 		$this->db->select('*');
 		$this->db->from('komputer as k');
 		$this->db->join('labor l', 'k.id_labor = l.id_labor', 'left');
@@ -17,7 +16,6 @@ class KomputerModel extends CI_Model
 	}
 	public function searchReady($filter = [])
 	{
-		// echo json_encode($filter);
 		$this->db->select('k.*,l.*,p.time_start, p.time_end, p.status');
 		$this->db->from('komputer as k');
 		$this->db->join('labor l', 'k.id_labor = l.id_labor');
@@ -60,7 +58,7 @@ class KomputerModel extends CI_Model
 
 	public function editKomputer($data)
 	{
-		$this->db->set(DataStructure::slice($data, ['id_labor', 'status', 'label_komputer']));
+		$this->db->set(DataStructure::slice($data, ['status', 'label_komputer']));
 		$this->db->where('id_komputer', $data['id_komputer']);
 		$this->db->update('komputer');
 

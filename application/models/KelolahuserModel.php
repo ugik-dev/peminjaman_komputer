@@ -18,7 +18,6 @@ class KelolahuserModel extends CI_Model
 
 	public function getAllLab($filter = [])
 	{
-		// $this->db->select('id_labor,nama_role,title_role');
 		$this->db->from('labor as ko');
 
 		$res = $this->db->get();
@@ -48,8 +47,6 @@ class KelolahuserModel extends CI_Model
 		$this->db->select('*');
 		$this->db->from('user as po');
 		$this->db->join("jurusan as pjo", "po.id_jurusan = pjo.id_jurusan", 'left');
-		// $this->db->join("kabupaten as kab", "kab.id_kabupaten = po.id_kabupaten",'left');
-
 		if (!empty($filter['search'])) $this->db->where('(po.username LIKE "%' . $filter['search'] . '%" or po.nama LIKE "%' . $filter['search'] . '%")');
 		if (!empty($filter['id_user'])) $this->db->where('po.id_user', $filter['id_user']);
 		$this->db->where('po.id_role', 4);

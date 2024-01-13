@@ -8,10 +8,8 @@
                             <div class="form-group">
                                 <label><b>Status</b></label>
                                 <select class="form-control my-1 mr-sm-2" id="status_data" name="status_data">
-                                    <option value="0" <?= $ret_data['status_data'] == 0 ? 'selected ' : '' ?>>Belum input data</option>
-                                    <option value="1" <?= $ret_data['status_data'] == 1 ? 'selected ' : '' ?>>Menunggu verifikasi</option>
-                                    <option value="3" <?= $ret_data['status_data'] == 3 ? 'selected ' : '' ?>>Ditolak</option>
-                                    <option value="2" <?= $ret_data['status_data'] == 2 ? 'selected ' : '' ?>>Diterima</option>
+                                    <option value="1" <?= ($ret_data['status_data'] == 0 OR $ret_data['status_data'] == 1  ) ? 'selected ' : '' ?>>Aktif</option>
+                                    <option value="2" <?= $ret_data['status_data'] == 2 ? 'selected ' : '' ?>>Non Aktif</option>
                                 </select>
                             </div>
                         </div>
@@ -19,19 +17,14 @@
                             <div class="form-group">
                                 <label><b></b></label>
                                 <?php
-                                if (empty($ret_data['id_data'])) {
-                                    echo '<div class="alert alert-secondary">Belum input data</div>';
-                                } else {
+                             
                                     if ($ret_data['status_data'] == 0) {
-                                        echo '<div class="alert alert-secondary">Belum input data</div>';
+                                        echo '<div class="alert alert-success">Aktif</div>';
                                     } else if ($ret_data['status_data'] == 1) {
-                                        echo '<div class="alert alert-primary">Menunggu Verifikasi</div>';
-                                    } else if ($ret_data['status_data'] == 2) {
-                                        echo '<div class="alert alert-success">Diverifikasi</div>';
-                                    } else if ($ret_data['status_data'] == 3) {
-                                        echo '<div class="alert alert-danger">Ditolak</div>';
-                                    }
-                                }
+                                        echo '<div class="alert alert-success">Aktif</div>';
+                                    } else{
+                                        echo '<div class="alert alert-danger">Non Aktif</div>';
+                                    } 
                                 ?>
                             </div>
                         </div>
@@ -120,7 +113,7 @@
                     <div class="col-md-6 mb-2">
                         <div class="form-group">
                             <label>File NIM<small style="color: red"> *max 300kb</small></label>
-                            <input type="file" class="form-control" id="file_nim" name="file_nim" <?= empty($ret_data['file_nim']) ? ' required="required"' : '' ?>>
+                            <input type="file" class="form-control" id="file_nim" name="file_nim" <?= empty($ret_data['file_nim']) ? '': '' ?>>
                         </div>
                         <?= !empty($ret_data['file_nim']) ? '<img style="width : 250px; height: 150px" src="' . base_url('upload/nim/') . $ret_data['file_nim'] . '">' : '' ?>
                     </div>
