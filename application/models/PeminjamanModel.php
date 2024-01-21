@@ -13,6 +13,8 @@ class PeminjamanModel extends CI_Model
         $this->db->join('labor l', 'k.id_labor = l.id_labor');
         if (!empty($filter['id_peminjaman'])) $this->db->where('p.id_peminjaman', $filter['id_peminjaman']);
         if (!empty($filter['id_labor'])) $this->db->where('k.id_labor', $filter['id_labor']);
+        if (!empty($filter['dari'])) $this->db->where('p.time_start >', $filter['dari'] . ' 00:00:00');
+        if (!empty($filter['sampai'])) $this->db->where('p.time_end <', $filter['sampai'] . ' 23:59:59');
 
 
         if ($this->session->userdata('id_role') == 1) {

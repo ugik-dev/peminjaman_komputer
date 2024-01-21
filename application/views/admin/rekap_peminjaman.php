@@ -4,7 +4,7 @@
         <div class="card">
             <div class="card-body">
                 <form class="form-inline" id="toolbar_form" onsubmit="return false;">
-                    <div class="row">
+                    <div class="row mb-5">
                         <div class="col-md-4">
                             <input type="text" placeholder="Search" class="form-control my-1 mr-sm-2" id="search" name="search">
                         </div>
@@ -15,6 +15,24 @@
                         </div>
                         <div class="col-md-4">
                             <select class="form-control mr-sm-2" name="id_komputer" id="id_komputer"> </select>
+                        </div>
+                    </div>
+                    <div class="row mt-5">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="dari" class="col-sm-2 col-form-label">Dari : </label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control" id="dari" name="dari" placeholder="Dari">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label for="sampai" class="col-sm-2 col-form-label">Sampai : </label>
+                                <div class="col-sm-8">
+                                    <input type="date" class="form-control" id="sampai" name="sampai" placeholder="Dari">
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button hidden type="submit" class="btn btn-success my-1 mr-sm-2" id="show_btn" data-loading-text="Loading..." onclick="this.form.target='show'"><i class="fal fa-search"></i> Cari</button>
@@ -109,7 +127,30 @@
             'id_labor': $('#toolbar_form').find('#id_labor'),
             'id_komputer': $('#toolbar_form').find('#id_komputer'),
             'search': $('#toolbar_form').find('#search'),
+            'dari': $('#toolbar_form').find('#dari'),
+            'sampai': $('#toolbar_form').find('#sampai'),
         }
+
+        function getCurrentDate() {
+            const today = new Date();
+            const year = today.getFullYear();
+            const month = (today.getMonth() + 1).toString().padStart(2, '0');
+            const day = today.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
+        function getOneMonthAgo() {
+            const today = new Date();
+            today.setMonth(today.getMonth() - 1);
+            const year = today.getFullYear();
+            const month = (today.getMonth() + 1).toString().padStart(2, '0');
+            const day = today.getDate().toString().padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        };
+
+        toolbar.dari.val(getOneMonthAgo());
+        toolbar.sampai.val(getCurrentDate());
+        // Fungsi untuk mendapatkan tanggal satu bulan yang lalu dalam format YYYY-MM-DD
 
         var FDataTable = $('#FDataTable').DataTable({
             'columnDefs': [{
@@ -123,27 +164,26 @@
             'info': false,
             "scrollX": true,
             dom: 'Bfrtip',
-        buttons: [
-            {
-                extend: 'copyHtml5',
-                exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
-                }
-            },
-            {
-                extend: 'excelHtml5',
-                exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
-                }
-            },
-            {
-                extend: 'pdfHtml5',
-                exportOptions: {
-                    columns: [ 0, 1, 2, 3, 4, 5, 6 ]
-                }
-            },
-            'colvis'
-        ]
+            buttons: [{
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                        columns: [0, 1, 2, 3, 4, 5, 6]
+                    }
+                },
+                'colvis'
+            ]
         });
 
         var ReadyTable = $('#ReadyTable').DataTable({
@@ -220,10 +260,21 @@
                 },
                 error: function(e) {}
             });
-        })
-        toolbar.id_komputer.on('change', () => {
-            getRekap()
-        })
+        });
+        // toolbar.dari.on('change', () => {
+        //     getRekap()
+        // });
+        // toolbar.sampai.on('change', () => {
+        //     getRekap()
+        // });
+        // toolbar.id_komputer.on('change', () => {
+        //     getRekap()
+        // });
+        ['dari', 'sampai', 'id_komputer'].forEach(element => {
+            toolbar[element].on('change', () => {
+                getRekap();
+            });
+        });
 
         function getRekap() {
             return $.ajax({
